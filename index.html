@@ -1,8 +1,8 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Las Mini Donitas de Dereck y Estrella</title>
   <style>
     body {
@@ -22,25 +22,21 @@
       margin-bottom: 20px;
     }
 
-    header h1 {
+    header img {
+      width: 90px;
+      margin-top: 10px;
+    }
+
+    h1 {
       color: #7b2cbf;
       margin: 0;
-      font-size: 2.5em;
+      font-size: 2.3em;
     }
 
-    header h2 {
+    h2 {
       color: #38b000;
       margin: 0;
-      font-size: 1.5em;
-    }
-
-    .logo-dona {
-      margin-top: 15px;
-    }
-
-    .logo-dona svg {
-      width: 60px;
-      height: 60px;
+      font-size: 1.4em;
     }
 
     .menu {
@@ -58,6 +54,11 @@
       text-align: center;
       width: 180px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+
+    .producto:hover {
+      transform: scale(1.05);
     }
 
     .producto img {
@@ -83,9 +84,11 @@
       padding: 10px 15px;
       cursor: pointer;
       font-weight: bold;
+      transition: transform 0.2s;
     }
 
     .producto button:hover {
+      transform: scale(1.1);
       background-color: #5a1f9c;
     }
 
@@ -114,88 +117,123 @@
       font-weight: bold;
     }
 
-    .pedido button:hover {
-      background-color: #2d8f00;
+    .total {
+      font-size: 1.3em;
+      color: #7b2cbf;
+      font-weight: bold;
     }
 
-    @media (max-width: 600px) {
-      .menu {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .producto {
-        width: 80%;
-      }
-
-      .pedido input, .pedido textarea {
-        width: 90%;
-      }
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
     }
+
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+      width: 300px;
+    }
+
+    .modal-content img {
+      width: 180px;
+      margin: 10px 0;
+    }
+
+    .close {
+      cursor: pointer;
+      font-size: 18px;
+      color: red;
+    }
+
   </style>
 </head>
 <body>
 
-  <!-- LOGO -->
   <header>
     <h1>Las Mini Donitas</h1>
     <h2>de Dereck y Estrella</h2>
-    <div class="logo-dona">
-      <svg viewBox="0 0 64 64">
-        <circle cx="32" cy="32" r="30" fill="#fce7f3"/>
-        <circle cx="32" cy="32" r="15" fill="white"/>
-        <path d="M2,32 a30,30 0 0,1 60,0" fill="#d46aff"/>
-      </svg>
-    </div>
+    <img src="img/logo.png" alt="logo" />
   </header>
 
-  <!-- MENÚ DE DONITAS -->
   <section class="menu">
     <div class="producto">
-      <img src="https://via.placeholder.com/150" alt="Dona de chocolate">
+      <img src="https://via.placeholder.com/150" alt="Dona Chocolate">
       <h3>Dona de Chocolate</h3>
       <p>S/3.00</p>
       <button onclick="agregarPedido('Dona de Chocolate', 3)">Pedir</button>
     </div>
+
     <div class="producto">
-      <img src="https://via.placeholder.com/150" alt="Dona de fresa">
+      <img src="https://via.placeholder.com/150" alt="Dona Fresa">
       <h3>Dona de Fresa</h3>
       <p>S/3.50</p>
       <button onclick="agregarPedido('Dona de Fresa', 3.5)">Pedir</button>
     </div>
+
     <div class="producto">
-      <img src="https://via.placeholder.com/150" alt="Dona glaseada">
+      <img src="https://via.placeholder.com/150" alt="Dona Glaseada">
       <h3>Dona Glaseada</h3>
       <p>S/2.50</p>
       <button onclick="agregarPedido('Dona Glaseada', 2.5)">Pedir</button>
     </div>
   </section>
 
-  <!-- FORMULARIO DE PEDIDO -->
   <section class="pedido">
     <h2>Tu Pedido</h2>
-    <form id="formPedido" onsubmit="enviarWhatsApp(event)">
+    <p class="total">Total: S/<span id="total">0.00</span></p>
+    <form onsubmit="mostrarModal(event)">
       <input type="text" id="nombre" placeholder="Tu nombre" required><br>
       <input type="text" id="direccion" placeholder="Dirección de entrega" required><br>
       <textarea id="pedido" placeholder="Escribe tu pedido aquí..." rows="4" required></textarea><br>
-      <button type="submit">Enviar Pedido por WhatsApp</button>
+      <button type="submit">Proceder al Pago</button>
     </form>
   </section>
 
+  <!-- Modal Yape -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="cerrarModal()">✖</span>
+      <h3>Paga por Yape</h3>
+      <p><strong>Número:</strong> 942 177 994</p>
+      <button onclick="enviarWhatsApp()">realisar pedido</button>
+    </div>
+  </div>
+
   <script>
-    function agregarPedido(nombreProducto, precio) {
-      const pedidoField = document.getElementById('pedido');
-      pedidoField.value += `${nombreProducto} - S/${precio.toFixed(2)}\n`;
-      pedidoField.focus();
+    let total = 0;
+
+    function agregarPedido(nombre, precio) {
+      const pedido = document.getElementById('pedido');
+      pedido.value += `${nombre} - S/${precio.toFixed(2)}\n`;
+      total += precio;
+      document.getElementById('total').innerText = total.toFixed(2);
     }
 
-    function enviarWhatsApp(e) {
+    function mostrarModal(e) {
       e.preventDefault();
+      document.getElementById('modal').style.display = 'flex';
+    }
+
+    function cerrarModal() {
+      document.getElementById('modal').style.display = 'none';
+    }
+
+    function enviarWhatsApp() {
       const nombre = document.getElementById('nombre').value;
       const direccion = document.getElementById('direccion').value;
       const pedido = document.getElementById('pedido').value;
-      const numero = '+51942177994';
-      const mensaje = `Hola, soy ${nombre}. Mi pedido es:\n${pedido}\nDirección: ${direccion}`;
+      const numero = '51942177994';
+      const mensaje = `Hola, soy ${nombre}. Mi pedido es:\n${pedido}\nTotal: S/${total.toFixed(2)}\nDirección: ${direccion}\n¡Ya pagué por Yape!`;
       const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
       window.open(url, '_blank');
     }
