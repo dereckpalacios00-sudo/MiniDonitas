@@ -233,7 +233,7 @@
       const direccion = document.getElementById('direccion').value;
       const pedido = document.getElementById('pedido').value;
       const numero = '51942177994';
-      const mensaje = `Hola, soy ${nombre}. Mi pedido es:\n${pedido}\nTotal: S/${total.toFixed(2)}\nDirección: ${direccion}\n¡Ya pagué por Yape!`;
+      const mensaje = `Hola, soy ${nombre}. Mi pedido es:\n${pedido}\nTotal: S/${total.toFixed(2)}\nDirección: ${direccion}\n
       const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
       window.open(url, '_blank');
     }
