@@ -1,204 +1,156 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Las Mini Donitas de Dereck y Estrella</title>
-  <style>
-    body {
-      font-family: 'Comic Sans MS', cursive, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #fff8fb;
-      color: #333;
-    }
-    header {
-      background-color: #ffffff;
-      text-align: center;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
-    }
-    header img {
-      width: 90px;
-      margin-top: 10px;
-    }
-    h1 { color: #7b2cbf; margin: 0; font-size: 2.3em; }
-    h2 { color: #38b000; margin: 0; font-size: 1.4em; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mini Donitas</title>
+<style>
+:root{--verde:#06c258;}
+body{margin:0;font-family:Arial,sans-serif;background:#f5f5f5;color:black;}
+header{display:flex;align-items:center;gap:12px;padding:10px 16px;background:var(--verde);color:white;position:sticky;top:0;z-index:10;}
+header img{height:45px;} header h2{margin:0;}
+.cart-icon{margin-left:auto;cursor:pointer;font-size:22px;color:white;transition:.2s;}
+.cart-icon:hover{color:#cc9ef7;}
+.grid{padding:15px;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;}
+.card{background:rgb(176,132,235);border-radius:10px;padding:10px;text-align:center;cursor:pointer;transition:.3s;color:black;}
+.card:hover{transform:scale(1.03);box-shadow:0 0 10px var(--verde);}
+.card img{width:100%;border-radius:8px;}
+.card h4{margin:8px 0 4px 0;color:black;}
+.card b{color:black;}
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);justify-content:center;align-items:center;z-index:20;}
+.modal-content{background:white;width:90%;max-width:300px;padding:20px;border-radius:10px;text-align:center;color:black;}
+.qty-box{display:flex;justify-content:center;gap:10px;margin:10px 0;}
+.qty-box button{width:35px;height:35px;font-size:20px;cursor:pointer;background:var(--verde);color:white;border:none;border-radius:6px;transition:.2s;}
+.qty-box button:hover{background:#04a047;}
+.modal-content button{width:100%;padding:10px;border:none;border-radius:6px;margin-top:8px;cursor:pointer;font-size:15px;transition:.2s;}
+.btn-add{background:var(--verde);color:white;}
+.btn-add:hover{background:#04a047;}
+.btn-close{background:#ddd;color:black;}
+.btn-close:hover{background:#ccc;}
+.cart{position:fixed;right:0;top:0;width:350px;height:100%;background:white;padding:15px;display:none;z-index:30;overflow-y:auto;box-shadow:-5px 0 15px #0003;color:black;}
+@media(max-width:768px){.cart{width:100%;}}
+.close-cart{background:var(--verde);color:white;border:none;width:100%;padding:10px;margin-bottom:10px;cursor:pointer;border-radius:6px;font-size:16px;}
+.close-cart:hover{background:#04a047;}
+.cart-item{display:flex;justify-content:space-between;padding:6px 0;}
+.cart-item button{background:var(--verde);color:white;border:none;width:28px;height:28px;border-radius:4px;cursor:pointer;transition:.2s;}
+.cart-item button:hover{background:#04a047;}
+.cart-actions{margin-top:15px;display:flex;flex-direction:column;gap:10px;}
+.wsp-btn{background:var(--verde);color:white;padding:12px;border:none;border-radius:6px;cursor:pointer;font-size:15px;text-align:center;transition:.2s;}
+.wsp-btn:hover{background:#04a047;}
+.pay-btn{background:#0070ba;color:white;padding:12px;border:none;border-radius:6px;cursor:pointer;font-size:15px;text-align:center;}
+h3 span#cartTotal{color:black;}
 
-    .menu {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      padding: 20px;
-    }
-    .producto {
-      background-color: #fce7f3;
-      border-radius: 15px;
-      padding: 15px;
-      text-align: center;
-      width: 190px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      transition: transform 0.2s;
-    }
-    .producto:hover { transform: scale(1.05); }
-    .producto img { width: 100%; border-radius: 10px; }
-    .producto h3 { color: #7b2cbf; margin: 10px 0 5px 0; }
-    .producto p { color: #38b000; margin: 5px 0; }
-    .producto button {
-      background-color: #7b2cbf;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      padding: 10px 15px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: transform 0.2s;
-    }
-    .producto button:hover { transform: scale(1.1); background-color: #5a1f9c; }
+/* Secciones temáticas */
+.san-valentin-simple{background:#ff5c8d;color:white;text-align:center;padding:20px;margin:15px 0;border-radius:10px;}
+.san-valentin-pro{background:url('img/san_valentin_bg.jpg') no-repeat center/cover;color:white;text-align:center;padding:40px 20px;margin:15px 0;border-radius:10px;position:relative;}
+.san-valentin-pro .overlay{background:rgba(0,0,0,0.5);padding:20px;border-radius:10px;display:inline-block;}
+.san-valentin-pro button{background:#ff5c8d;color:white;border:none;padding:12px 20px;border-radius:6px;cursor:pointer;font-size:16px;}
+.donas-pro{background:url('img/donas_bg.jpg') no-repeat center/cover;color:white;text-align:center;padding:40px 20px;margin:15px 0;border-radius:10px;position:relative;}
+.donas-pro .overlay{background:rgba(0,0,0,0.5);padding:20px;border-radius:10px;display:inline-block;}
+.donas-pro button{background:var(--verde);color:white;border:none;padding:12px 20px;border-radius:6px;cursor:pointer;font-size:16px;}
 
-    /* Carrito */
-    .carrito {
-      background: #ffffff;
-      margin: 20px;
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-    .carrito-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 8px 0;
-    }
-    .carrito-buttons button {
-      margin: 0 5px;
-      background: #38b000;
-      color: white;
-      border: none;
-      padding: 5px 10px;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    .carrito-buttons button.eliminar {
-      background: red;
-    }
-    .total { font-size: 1.3em; color: #7b2cbf; font-weight: bold; text-align: center; }
-
-    .enviar {
-      display: block;
-      margin: 20px auto;
-      background: #38b000;
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 12px;
-      font-size: 1.1em;
-      cursor: pointer;
-      font-weight: bold;
-    }
-  </style>
+/* Media queries para grid responsive */
+@media(max-width:600px){.grid{grid-template-columns:1fr;}}
+@media(min-width:601px) and (max-width:1024px){.grid{grid-template-columns:repeat(2,minmax(140px,1fr));}}
+@media(min-width:1025px){.grid{grid-template-columns:repeat(3,minmax(140px,1fr));}}
+</style>
 </head>
 <body>
 
 <header>
-  <h1>Las Mini Donitas</h1>
-  <h2>de Dereck y Estrella</h2>
-  <img src="img/logo.png" alt="logo" />
+<img src="img/logo.png" alt="logo">
+<h2>Mini Donitas</h2>
+<div class="cart-icon" onclick="openCart()">🛒</div>
 </header>
-<section class="menu">
-  <div class="producto">
-    <img src="https://via.placeholder.com/150" alt="Dona Chocolate">
-    <h3>Dona de Chocolate</h3>
-    <p>S/3.00</p>
-    <button onclick="agregar('Dona de Chocolate',3)">Agregar</button>
-  </div>
-  <div class="producto">
-    <img src="https://via.placeholder.com/150" alt="Dona Fresa">
-    <h3>Dona de Fresa</h3>
-    <p>S/3.50</p>
-    <button onclick="agregar('Dona de Fresa',3.5)">Agregar</button>
-  </div>
-  <div class="producto">
-    <img src="https://via.placeholder.com/150" alt="Dona Glaseada">
-    <h3>Dona Glaseada</h3>
-    <p>S/2.50</p>
-    <button onclick="agregar('Dona Glaseada',2.5)">Agregar</button>
-  </div>
 
-  <!-- Combos -->
-  <div class="producto">
-    <img src="https://via.placeholder.com/150" alt="Combo x6">
-    <h3>Combo Mini x6</h3>
-    <p>S/5.00</p>
-    <button onclick="agregar('Combo Mini x6',5)">Agregar</button>
-  </div>
-  <div class="producto">
-    <img src="https://via.placeholder.com/150" alt="Combo x12">
-    <h3>Combo Mini x12</h3>
-    <p>S/9.00</p>
-    <button onclick="agregar('Combo Mini x12',9)">Agregar</button>
-  </div>
-  <div class="producto">
-    <img src="https://via.placeholder.com/150" alt="Combo Especial x30">
-    <h3>Combo Especial x30</h3>
-    <p>S/12.00</p>
-    <button onclick="agregar('Combo Especial x30',12)">Agregar</button>
-  </div>
+<section class="san-valentin-simple">
+<h2>💘 Especial San Valentín 💘</h2>
+<p>Descubre nuestros combos románticos y dulces para compartir 💝</p>
 </section>
 
-<section class="carrito">
-  <h2>🛒 Carrito</h2>
-  <div id="lista-carrito"></div>
-  <p class="total">Total: S/<span id="total">0.00</span></p>
-  <button class="enviar" onclick="enviarWhatsApp()">Enviar Pedido por WhatsApp</button>
+<section class="san-valentin-pro">
+<div class="overlay">
+<h2>❤️ San Valentín Deluxe ❤️</h2>
+<p>Combos especiales para enamorados 💕</p>
+<button onclick="document.getElementById('donasProducts').scrollIntoView({behavior:'smooth'});">Ver combos</button>
+</div>
 </section>
+
+<section class="donas-pro">
+<div class="overlay">
+<h2>🍩 Nuestros Combos de Mini Donitas 🍩</h2>
+<p>Los combos más dulces y deliciosos para compartir 😋</p>
+<div class="grid" id="donasProducts"></div>
+<button onclick="document.getElementById('donasProducts').scrollIntoView({behavior:'smooth'});">Ver combos arriba</button>
+</div>
+</section>
+
+<div class="modal" id="modal">
+<div class="modal-content">
+<h3 id="mTitle"></h3>
+<p><b>Precio:</b> S/ <span id="mPrice"></span></p>
+<div class="qty-box">
+<button onclick="changeQty(-1)">-</button>
+<span id="mQty">1</span>
+<button onclick="changeQty(1)">+</button>
+</div>
+<button class="btn-add" onclick="addToCart()">Agregar al carrito</button>
+<button class="btn-close" onclick="closeModal()">Cerrar</button>
+</div>
+</div>
+
+<div class="cart" id="cart">
+<button class="close-cart" onclick="closeCart()">Cerrar Carrito</button>
+<h2>Carrito</h2>
+<div id="cartItems"></div>
+<h3>Total: S/ <span id="cartTotal">0</span></h3>
+<div class="cart-actions">
+<button class="wsp-btn" onclick="sendWhatsApp()">🛒 Enviar pedido a WhatsApp</button>
+<button class="pay-btn" onclick="alert('Aquí irán los pagos 😊')">💳 Agregar pagos</button>
+</div>
+</div>
 
 <script>
-  let carrito = [];
+let products=[
+{name:"Combo 4 mini donas",price:10,img:"img/4.jpg"},
+{name:"Combo 6 mini donas",price:12,img:"img/6.jpg"},
+{name:"Combo 8 mini donas",price:14,img:"img/8.jpg"},
+{name:"Combo 12 mini donas",price:18,img:"img/12.jpg"},
+{name:"Combo 16 mini donas",price:22,img:"img/16.jpg"},
+{name:"Combo 18 mini donas",price:24,img:"img/18.jpg"},
+{name:"Combo 22 mini donas",price:28,img:"img/22.jpg"},
+{name:"Combo 24 mini donas",price:30,img:"img/24.jpg"},
+{name:"Combo 26 mini donas",price:32,img:"img/26.jpg"},
+{name:"Combo 28 mini donas",price:34,img:"img/28.jpg"},
+{name:"Combo 32 mini donas",price:38,img:"img/32.jpg"},
+{name:"Combo 36 mini donas",price:42,img:"img/36.jpg"},
+{name:"Combo 38 mini donas",price:44,img:"img/38.jpg"},
+{name:"Combo 42 mini donas",price:48,img:"img/42.jpg"},
+{name:"Combo 46 mini donas",price:52,img:"img/46.jpg"},
+{name:"Combo 48 mini donas",price:54,img:"img/48.jpg"},
+{name:"Combo 52 mini donas",price:56,img:"img/52.jpg"},
+];
 
-  function agregar(nombre, precio) {
-    const item = carrito.find(p => p.nombre === nombre);
-    if(item) item.cantidad++;
-    else carrito.push({ nombre, precio, cantidad: 1 });
-    render();
-  }
+let donasGrid=document.getElementById("donasProducts");
+products.forEach((p,i)=>{
+donasGrid.innerHTML += `<div class="card" onclick="openModal(${i})"><img src="${p.img}"><h4>${p.name}</h4><b>S/ ${p.price}</b></div>`;
+});
 
-  function aumentar(i){ carrito[i].cantidad++; render(); }
-  function disminuir(i){ if(carrito[i].cantidad>1) carrito[i].cantidad--; else carrito.splice(i,1); render(); }
-  function eliminar(i){ carrito.splice(i,1); render(); }
-
-  function render(){
-    const lista = document.getElementById('lista-carrito');
-    lista.innerHTML = '';
-    let total = 0;
-    carrito.forEach((p,i)=>{
-      total += p.precio * p.cantidad;
-      lista.innerHTML += `
-        <div class='carrito-item'>
-          ${p.nombre} (x${p.cantidad}) - S/${(p.precio*p.cantidad).toFixed(2)}
-          <div class='carrito-buttons'>
-            <button onclick='aumentar(${i})'>+</button>
-            <button onclick='disminuir(${i})'>-</button>
-            <button class='eliminar' onclick='eliminar(${i})'>✖</button>
-          </div>
-        </div>`;
-    });
-    document.getElementById('total').innerText = total.toFixed(2);
-  }
-
-  function enviarWhatsApp(){
-    if(carrito.length === 0) return alert("Tu carrito está vacío");
-    let mensaje = "Hola, quiero hacer un pedido:\n";
-    carrito.forEach(p=>{
-      mensaje += `- ${p.nombre} x${p.cantidad} = S/${(p.precio*p.cantidad).toFixed(2)}\n`;
-    });
-    mensaje += `Total: S/${document.getElementById('total').innerText}`;
-    const numero = '51942177994';
-    window.open(`https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`);
-  }
+let modal=document.getElementById("modal");
+let mTitle=document.getElementById("mTitle");
+let mPrice=document.getElementById("mPrice");
+let mQty=document.getElementById("mQty");
+let selectedIndex=0, qty=1;
+function openModal(i){selectedIndex=i;qty=1;mQty.innerText=qty;mTitle.innerText=products[i].name;mPrice.innerText=products[i].price;modal.style.display="flex";}
+function closeModal(){modal.style.display="none";}
+function changeQty(n){qty+=n;if(qty<1)qty=1;mQty.innerText=qty;}
+let cart=[];
+function addToCart(){let item=products[selectedIndex];let found=cart.find(c=>c.name===item.name);if(found)found.qty+=qty;else cart.push({name:item.name,price:item.price,qty:qty});closeModal();updateCart();openCart();}
+function openCart(){document.getElementById("cart").style.display="block";}
+function closeCart(){document.getElementById("cart").style.display="none";}
+function updateCart(){let div=document.getElementById("cartItems");div.innerHTML="";let total=0;cart.forEach((c,i)=>{total+=c.price*c.qty;div.innerHTML+=`<div class="cart-item"><span>${c.name} x${c.qty}</span><div><button onclick="changeCartQty(${i},-1)">-</button><button onclick="changeCartQty(${i},1)">+</button></div></div>`;});document.getElementById("cartTotal").innerText=total;}
+function changeCartQty(i,n){cart[i].qty+=n;if(cart[i].qty<=0)cart.splice(i,1);updateCart();}
+function sendWhatsApp(){let text="Hola, quiero pedir:%0A";cart.forEach(c=>{text+=`🔹 ${c.name} x${c.qty}%0A`;});text+=`%0A Total: S/ ${document.getElementById("cartTotal").innerText}`;window.open(`https://wa.me/51942177994?text=${text}`,"_blank");}
 </script>
 
 </body>
