@@ -3,20 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mini Donitas</title>
+<title>Las Mini Donitas de Dereck y Estrella</title>
 <style>
 :root{--verde:#06c258;}
-body{margin:0;font-family:Arial,sans-serif;background:#f5f5f5;color:black;}
+body{margin:0;font-family:Arial,sans-serif;background:#f5f5f5;color:black;overflow-x:hidden;}
 header{display:flex;align-items:center;gap:12px;padding:10px 16px;background:var(--verde);color:white;position:sticky;top:0;z-index:10;}
 header img{height:45px;} header h2{margin:0;}
 .cart-icon{margin-left:auto;cursor:pointer;font-size:22px;color:white;transition:.2s;}
 .cart-icon:hover{color:#cc9ef7;}
+
+/* GRID Y CARDS */
 .grid{padding:15px;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;}
-.card{background:rgb(176,132,235);border-radius:10px;padding:10px;text-align:center;cursor:pointer;transition:.3s;color:black;}
+.card{background:rgb(176,132,235);border-radius:10px;padding:10px;text-align:center;cursor:pointer;transition:.3s;color:black;position:relative;overflow:hidden;}
 .card:hover{transform:scale(1.03);box-shadow:0 0 10px var(--verde);}
 .card img{width:100%;border-radius:8px;}
 .card h4{margin:8px 0 4px 0;color:black;}
 .card b{color:black;}
+
+/* MODAL */
 .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);justify-content:center;align-items:center;z-index:20;}
 .modal-content{background:white;width:90%;max-width:300px;padding:20px;border-radius:10px;text-align:center;color:black;}
 .qty-box{display:flex;justify-content:center;gap:10px;margin:10px 0;}
@@ -27,6 +31,8 @@ header img{height:45px;} header h2{margin:0;}
 .btn-add:hover{background:#04a047;}
 .btn-close{background:#ddd;color:black;}
 .btn-close:hover{background:#ccc;}
+
+/* CARRITO */
 .cart{position:fixed;right:0;top:0;width:350px;height:100%;background:white;padding:15px;display:none;z-index:30;overflow-y:auto;box-shadow:-5px 0 15px #0003;color:black;}
 @media(max-width:768px){.cart{width:100%;}}
 .close-cart{background:var(--verde);color:white;border:none;width:100%;padding:10px;margin-bottom:10px;cursor:pointer;border-radius:6px;font-size:16px;}
@@ -40,8 +46,8 @@ header img{height:45px;} header h2{margin:0;}
 .pay-btn{background:#0070ba;color:white;padding:12px;border:none;border-radius:6px;cursor:pointer;font-size:15px;text-align:center;}
 h3 span#cartTotal{color:black;}
 
-/* Secciones temáticas */
-.san-valentin-simple{background:#ff5c8d;color:white;text-align:center;padding:20px;margin:15px 0;border-radius:10px;}
+/* SECCIONES TEMATICAS */
+.san-valentin-simple{background:#ff5c8d;color:white;text-align:center;padding:20px;margin:15px 0;border-radius:10px;position:relative;overflow:hidden;}
 .san-valentin-pro{background:url('img/san_valentin_bg.jpg') no-repeat center/cover;color:white;text-align:center;padding:40px 20px;margin:15px 0;border-radius:10px;position:relative;}
 .san-valentin-pro .overlay{background:rgba(0,0,0,0.5);padding:20px;border-radius:10px;display:inline-block;}
 .san-valentin-pro button{background:#ff5c8d;color:white;border:none;padding:12px 20px;border-radius:6px;cursor:pointer;font-size:16px;}
@@ -49,7 +55,21 @@ h3 span#cartTotal{color:black;}
 .donas-pro .overlay{background:rgba(0,0,0,0.5);padding:20px;border-radius:10px;display:inline-block;}
 .donas-pro button{background:var(--verde);color:white;border:none;padding:12px 20px;border-radius:6px;cursor:pointer;font-size:16px;}
 
-/* Media queries para grid responsive */
+/* ANIMACIONES DE CORAZONCITOS Y DONITAS */
+.heart, .mini-dona{
+    position:absolute;
+    pointer-events:none;
+    animation:floatUp linear infinite;
+}
+.heart{width:20px;height:20px;background:red;clip-path:polygon(50% 0%,61% 12%,75% 12%,88% 25%,88% 37%,75% 50%,50% 100%,25% 50%,12% 37%,12% 25%,25% 12%,39% 12%);border-radius:50%;}
+.mini-dona{width:25px;height:25px;background:rgb(255,200,0);border-radius:50%;border:3px solid pink;}
+
+@keyframes floatUp{
+0%{transform:translateY(0) scale(1);}
+100%{transform:translateY(-600px) scale(1.2);}
+}
+
+/* GRID RESPONSIVE */
 @media(max-width:600px){.grid{grid-template-columns:1fr;}}
 @media(min-width:601px) and (max-width:1024px){.grid{grid-template-columns:repeat(2,minmax(140px,1fr));}}
 @media(min-width:1025px){.grid{grid-template-columns:repeat(3,minmax(140px,1fr));}}
@@ -59,7 +79,7 @@ h3 span#cartTotal{color:black;}
 
 <header>
 <img src="img/logo.png" alt="logo">
-<h2>Mini Donitas</h2>
+<h2>Las Mini Donitas de Dereck y Estrella</h2>
 <div class="cart-icon" onclick="openCart()">🛒</div>
 </header>
 
@@ -85,6 +105,7 @@ h3 span#cartTotal{color:black;}
 </div>
 </section>
 
+<!-- MODAL -->
 <div class="modal" id="modal">
 <div class="modal-content">
 <h3 id="mTitle"></h3>
@@ -99,6 +120,7 @@ h3 span#cartTotal{color:black;}
 </div>
 </div>
 
+<!-- CARRITO -->
 <div class="cart" id="cart">
 <button class="close-cart" onclick="closeCart()">Cerrar Carrito</button>
 <h2>Carrito</h2>
@@ -111,6 +133,7 @@ h3 span#cartTotal{color:black;}
 </div>
 
 <script>
+// PRODUCTOS
 let products=[
 {name:"Combo 4 mini donas",price:10,img:"img/4.jpg"},
 {name:"Combo 6 mini donas",price:12,img:"img/6.jpg"},
@@ -136,11 +159,8 @@ products.forEach((p,i)=>{
 donasGrid.innerHTML += `<div class="card" onclick="openModal(${i})"><img src="${p.img}"><h4>${p.name}</h4><b>S/ ${p.price}</b></div>`;
 });
 
-let modal=document.getElementById("modal");
-let mTitle=document.getElementById("mTitle");
-let mPrice=document.getElementById("mPrice");
-let mQty=document.getElementById("mQty");
-let selectedIndex=0, qty=1;
+// MODAL Y CARRITO
+let modal=document.getElementById("modal");let mTitle=document.getElementById("mTitle");let mPrice=document.getElementById("mPrice");let mQty=document.getElementById("mQty");let selectedIndex=0, qty=1;
 function openModal(i){selectedIndex=i;qty=1;mQty.innerText=qty;mTitle.innerText=products[i].name;mPrice.innerText=products[i].price;modal.style.display="flex";}
 function closeModal(){modal.style.display="none";}
 function changeQty(n){qty+=n;if(qty<1)qty=1;mQty.innerText=qty;}
@@ -151,6 +171,24 @@ function closeCart(){document.getElementById("cart").style.display="none";}
 function updateCart(){let div=document.getElementById("cartItems");div.innerHTML="";let total=0;cart.forEach((c,i)=>{total+=c.price*c.qty;div.innerHTML+=`<div class="cart-item"><span>${c.name} x${c.qty}</span><div><button onclick="changeCartQty(${i},-1)">-</button><button onclick="changeCartQty(${i},1)">+</button></div></div>`;});document.getElementById("cartTotal").innerText=total;}
 function changeCartQty(i,n){cart[i].qty+=n;if(cart[i].qty<=0)cart.splice(i,1);updateCart();}
 function sendWhatsApp(){let text="Hola, quiero pedir:%0A";cart.forEach(c=>{text+=`🔹 ${c.name} x${c.qty}%0A`;});text+=`%0A Total: S/ ${document.getElementById("cartTotal").innerText}`;window.open(`https://wa.me/51942177994?text=${text}`,"_blank");}
+
+// CREAR CORAZONCITOS Y DONITAS FLOTANDO
+function createHeart(){
+    let heart=document.createElement('div'); heart.className='heart';
+    heart.style.left=Math.random()*window.innerWidth+'px';
+    heart.style.animationDuration=(3+Math.random()*3)+'s';
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),6000);
+}
+function createMiniDona(){
+    let dona=document.createElement('div'); dona.className='mini-dona';
+    dona.style.left=Math.random()*window.innerWidth+'px';
+    dona.style.animationDuration=(4+Math.random()*4)+'s';
+    document.body.appendChild(dona);
+    setTimeout(()=>dona.remove(),8000);
+}
+setInterval(createHeart,500); // cada 0.5s aparece un corazón
+setInterval(createMiniDona,800); // cada 0.8s aparece una mini dona
 </script>
 
 </body>
