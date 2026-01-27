@@ -3,193 +3,1687 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Las Mini Donitas de Dereck y Estrella</title>
+<title>Las mini donitas de Dereck y Estrella</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 <style>
-:root{--verde:#06c258;}
-body{margin:0;font-family:Arial,sans-serif;background:#f5f5f5;color:black;overflow-x:hidden;}
-header{display:flex;align-items:center;gap:12px;padding:10px 16px;background:var(--verde);color:white;position:sticky;top:0;z-index:10;}
-header img{height:45px;} header h2{margin:0;}
-.cart-icon{margin-left:auto;cursor:pointer;font-size:22px;color:white;transition:.2s;}
-.cart-icon:hover{color:#cc9ef7;}
+:root{
+    --primary:#0d9488;
+    --primary-dark:#0f766e;
+    --accent:#f43f5e;
+    --accent-soft:#fda4af;
+    --bg:#f0fdfa;
+    --surface:#ffffff;
+    --text:#0f172a;
+    --text-soft:#334155;
+    --muted:#64748b;
+    --border:#e2e8f0;
+    --border-soft:#f1f5f9;
+}
 
-/* GRID Y CARDS */
-.grid{padding:15px;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;}
-.card{background:rgb(176,132,235);border-radius:10px;padding:10px;text-align:center;cursor:pointer;transition:.3s;color:black;position:relative;overflow:hidden;}
-.card:hover{transform:scale(1.03);box-shadow:0 0 10px var(--verde);}
-.card img{width:100%;border-radius:8px;}
-.card h4{margin:8px 0 4px 0;color:black;}
-.card b{color:black;}
+/* GENERAL */
+* {
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-/* MODAL */
-.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);justify-content:center;align-items:center;z-index:20;}
-.modal-content{background:white;width:90%;max-width:300px;padding:20px;border-radius:10px;text-align:center;color:black;}
-.qty-box{display:flex;justify-content:center;gap:10px;margin:10px 0;}
-.qty-box button{width:35px;height:35px;font-size:20px;cursor:pointer;background:var(--verde);color:white;border:none;border-radius:6px;transition:.2s;}
-.qty-box button:hover{background:#04a047;}
-.modal-content button{width:100%;padding:10px;border:none;border-radius:6px;margin-top:8px;cursor:pointer;font-size:15px;transition:.2s;}
-.btn-add{background:var(--verde);color:white;}
-.btn-add:hover{background:#04a047;}
-.btn-close{background:#ddd;color:black;}
-.btn-close:hover{background:#ccc;}
+html { scroll-behavior:smooth; }
+
+body {
+    margin:0;
+    font-family:'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+    position:relative;
+    overflow-x:hidden;
+}
+
+body::before {
+    content:'';
+    position:fixed;
+    top:0; left:0; width:100%; height:100%;
+    background:linear-gradient(165deg, var(--bg) 0%, #ccfbf1 40%, #fce7f3 100%);
+    z-index:-1;
+}
+
+body::after {
+    content:'';
+    position:fixed;
+    top:0; left:0; width:100%; height:100%;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
+    pointer-events:none;
+    z-index:0;
+}
+
+/* HEADER */
+header {
+    background:var(--surface);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    color:var(--text);
+    padding:20px 24px 24px;
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:center;
+    gap:20px;
+    font-family:'Playfair Display', serif;
+    font-size:clamp(1.35rem, 3.5vw, 1.85rem);
+    font-weight:700;
+    position:sticky;
+    top:0;
+    z-index:100;
+    opacity:0;
+    transform:translateY(-20px);
+    animation:fadeSlideDown .7s forwards;
+    box-shadow:0 1px 0 var(--border);
+    letter-spacing:-0.02em;
+}
+header .logo { flex:1; text-align:center; }
+header .auth-zone {
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-family:'Outfit', sans-serif;
+    font-size:0.95rem;
+}
+.auth-btn {
+    padding:10px 20px;
+    border-radius:12px;
+    font-weight:600;
+    cursor:pointer;
+    border:none;
+    transition:all 0.25s ease;
+    text-decoration:none;
+    font-family:'Outfit', sans-serif;
+}
+.auth-btn.login {
+    background:transparent;
+    color:var(--primary);
+    border:2px solid var(--primary);
+}
+.auth-btn.login:hover {
+    background:var(--primary);
+    color:var(--surface);
+}
+.auth-btn.register {
+    background:var(--primary);
+    color:var(--surface);
+}
+.auth-btn.register:hover {
+    background:var(--primary-dark);
+    transform:translateY(-2px);
+    box-shadow:0 6px 20px rgba(13,148,136,0.35);
+}
+.user-hello {
+    color:var(--text-soft);
+    font-weight:500;
+}
+.user-hello span { color:var(--primary); font-weight:600; }
+.auth-btn.logout {
+    background:var(--border-soft);
+    color:var(--muted);
+    padding:8px 16px;
+    font-size:0.9rem;
+}
+.auth-btn.logout:hover {
+    background:var(--accent);
+    color:var(--surface);
+}
+
+/* TITULOS */
+.section-title {
+    text-align:center;
+    margin:56px 0 36px;
+    font-family:'Playfair Display', serif;
+    font-size:clamp(1.75rem, 4vw, 2.25rem);
+    font-weight:700;
+    color:var(--text);
+    opacity:0;
+    transform:translateY(20px);
+    letter-spacing:-0.03em;
+    position:relative;
+}
+
+.section-title::after {
+    content:'';
+    position:absolute;
+    bottom:-12px;
+    left:50%;
+    transform:translateX(-50%);
+    width:48px;
+    height:3px;
+    background:var(--primary);
+    border-radius:2px;
+}
+
+/* CONTENEDORES */
+.container {
+    width:90%;
+    max-width:1400px;
+    margin:0 auto;
+    padding:24px 0;
+    position:relative;
+    z-index:1;
+}
+
+::selection {
+    background:var(--primary);
+    color:var(--surface);
+}
+
+.valentin-box {
+    background:var(--surface);
+    border-radius:20px;
+    padding:44px 40px;
+    margin-bottom:64px;
+    text-align:center;
+    box-shadow:0 4px 24px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04);
+    opacity:0;
+    transform:translateY(20px);
+    transition:all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    border:1px solid var(--border);
+    position:relative;
+    overflow:hidden;
+}
+
+.valentin-box::before {
+    content:'';
+    position:absolute;
+    top:0; left:-100%; width:100%; height:100%;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+    transition:left 0.6s ease;
+}
+
+.valentin-box:hover::before { left:100%; }
+
+.valentin-box:hover {
+    transform:translateY(-6px);
+    box-shadow:0 20px 48px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.06);
+}
+
+.valentin-box h3 {
+    color:var(--text);
+    font-family:'Playfair Display', serif;
+    font-size:1.65rem;
+    margin-bottom:12px;
+    font-weight:700;
+}
+.valentin-box p {
+    color:var(--text-soft);
+    font-size:1.05rem;
+    margin:8px 0;
+    font-weight:400;
+}
+
+/* PRODUCTOS */
+.products {
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+    gap:28px;
+    padding:24px 0;
+}
+
+.product {
+    background:var(--surface);
+    border-radius:20px;
+    padding:24px;
+    box-shadow:0 4px 20px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04);
+    text-align:center;
+    opacity:0;
+    transform:translateY(30px) scale(0.98);
+    transition:all 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    border:1px solid var(--border);
+    overflow:hidden;
+    position:relative;
+}
+
+.product::before {
+    content:'';
+    position:absolute;
+    top:0; left:0; right:0;
+    height:3px;
+    background:var(--primary);
+    transform:scaleX(0);
+    transform-origin:left;
+    transition:transform 0.4s ease;
+}
+
+.product:hover::before { transform:scaleX(1); }
+
+.product:hover {
+    transform:translateY(-10px) scale(1.01);
+    box-shadow:0 24px 48px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.06);
+    border-color:var(--muted);
+}
+
+.product-img {
+    width:100%;
+    height:220px;
+    border-radius:16px;
+    margin-bottom:20px;
+    overflow:hidden;
+    border:1px solid var(--border);
+    transition:all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position:relative;
+    background:var(--border-soft);
+}
+
+.product-img::after {
+    content:'Ver detalle';
+    position:absolute;
+    bottom:0; left:0; right:0;
+    background:linear-gradient(to top, rgba(0,0,0,0.75), transparent);
+    color:var(--surface);
+    padding:16px;
+    font-size:13px;
+    font-weight:500;
+    letter-spacing:0.05em;
+    opacity:0;
+    transform:translateY(8px);
+    transition:all 0.3s ease;
+}
+
+.product-img:hover::after {
+    opacity:1;
+    transform:translateY(0);
+}
+
+.product-img:hover {
+    border-color:var(--muted);
+    box-shadow:0 12px 32px rgba(0,0,0,0.15);
+    transform:scale(1.02);
+}
+
+.product-img img {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    border-radius:14px;
+    transition:transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor:pointer;
+}
+
+.product-img:hover img { transform:scale(1.06); }
+
+.product h4 {
+    color:var(--text);
+    font-size:1.15rem;
+    margin:18px 0 8px;
+    font-weight:600;
+    letter-spacing:-0.02em;
+}
+.product p {
+    color:var(--text);
+    font-size:1.35rem;
+    font-weight:700;
+    margin:8px 0;
+    letter-spacing:-0.02em;
+}
+
+/* OVERLAY DEL CARRITO */
+.cart-overlay {
+    display:none;
+    position:fixed;
+    top:0; left:0; width:100%; height:100%;
+    background:rgba(0,0,0,0.4);
+    backdrop-filter:blur(4px);
+    z-index:999;
+    opacity:0;
+    transition:opacity 0.3s ease;
+}
+.cart-overlay.show { display:block; opacity:1; }
 
 /* CARRITO */
-.cart{position:fixed;right:0;top:0;width:350px;height:100%;background:white;padding:15px;display:none;z-index:30;overflow-y:auto;box-shadow:-5px 0 15px #0003;color:black;}
-@media(max-width:768px){.cart{width:100%;}}
-.close-cart{background:var(--verde);color:white;border:none;width:100%;padding:10px;margin-bottom:10px;cursor:pointer;border-radius:6px;font-size:16px;}
-.close-cart:hover{background:#04a047;}
-.cart-item{display:flex;justify-content:space-between;padding:6px 0;}
-.cart-item button{background:var(--verde);color:white;border:none;width:28px;height:28px;border-radius:4px;cursor:pointer;transition:.2s;}
-.cart-item button:hover{background:#04a047;}
-.cart-actions{margin-top:15px;display:flex;flex-direction:column;gap:10px;}
-.wsp-btn{background:var(--verde);color:white;padding:12px;border:none;border-radius:6px;cursor:pointer;font-size:15px;text-align:center;transition:.2s;}
-.wsp-btn:hover{background:#04a047;}
-.pay-btn{background:#0070ba;color:white;padding:12px;border:none;border-radius:6px;cursor:pointer;font-size:15px;text-align:center;}
-h3 span#cartTotal{color:black;}
+#cart {
+    display:none;
+    position:fixed;
+    top:0; right:0;
+    width:420px;
+    max-width:100%;
+    height:100%;
+    background:var(--surface);
+    box-shadow:-12px 0 48px rgba(0,0,0,0.12);
+    padding:0;
+    z-index:1000;
+    overflow-y:auto;
+    transform:translateX(100%);
+    transition:transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border-left:1px solid var(--border);
+}
+#cart.show { display:block; transform:translateX(0); }
 
-/* SECCIONES TEMATICAS */
-.san-valentin-simple{background:#ff5c8d;color:white;text-align:center;padding:20px;margin:15px 0;border-radius:10px;position:relative;overflow:hidden;}
-.san-valentin-pro{background:url('img/san_valentin_bg.jpg') no-repeat center/cover;color:white;text-align:center;padding:40px 20px;margin:15px 0;border-radius:10px;position:relative;}
-.san-valentin-pro .overlay{background:rgba(0,0,0,0.5);padding:20px;border-radius:10px;display:inline-block;}
-.san-valentin-pro button{background:#ff5c8d;color:white;border:none;padding:12px 20px;border-radius:6px;cursor:pointer;font-size:16px;}
-.donas-pro{background:url('img/donas_bg.jpg') no-repeat center/cover;color:white;text-align:center;padding:40px 20px;margin:15px 0;border-radius:10px;position:relative;}
-.donas-pro .overlay{background:rgba(0,0,0,0.5);padding:20px;border-radius:10px;display:inline-block;}
-.donas-pro button{background:var(--verde);color:white;border:none;padding:12px 20px;border-radius:6px;cursor:pointer;font-size:16px;}
+.cart-header {
+    background:var(--primary);
+    color:var(--surface);
+    padding:24px 24px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:sticky;
+    top:0;
+    z-index:10;
+    border-bottom:1px solid var(--primary-dark);
+}
+.cart-header h2 {
+    margin:0;
+    font-family:'Playfair Display', serif;
+    font-size:1.35rem;
+    font-weight:700;
+}
+.cart-close-btn {
+    background:rgba(255,255,255,0.15);
+    border:none;
+    color:var(--surface);
+    font-size:24px;
+    cursor:pointer;
+    width:40px;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    transition:all 0.2s ease;
+}
+.cart-close-btn:hover {
+    background:rgba(255,255,255,0.25);
+    transform:scale(1.05);
+}
 
-/* ANIMACIONES DE CORAZONCITOS Y DONITAS */
-.heart, .mini-dona{
+.cart-content { padding:24px; }
+
+.cart-item {
+    padding:18px;
+    margin-bottom:14px;
+    background:var(--border-soft);
+    border-radius:14px;
+    border:1px solid var(--border);
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    transition:all 0.25s ease;
+}
+.cart-item:hover {
+    transform:translateY(-2px);
+    box-shadow:0 8px 24px rgba(0,0,0,0.08);
+}
+
+.cart-item-header {
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:10px;
+}
+.cart-item-name {
+    font-weight:600;
+    font-size:1rem;
+    color:var(--text-soft);
+    flex:1;
+}
+.cart-item-remove {
+    background:var(--primary);
+    color:var(--surface);
+    border:none;
+    width:32px;
+    height:32px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:all 0.2s ease;
+    flex-shrink:0;
+}
+.cart-item-remove:hover {
+    background:var(--accent);
+    transform:scale(1.08);
+}
+
+.cart-item-details {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+.cart-item-price {
+    font-size:1.05rem;
+    font-weight:700;
+    color:var(--text);
+}
+.cart-item-controls {
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+.qty-btn {
+    background:var(--primary);
+    color:var(--surface);
+    border:none;
+    padding:6px 14px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:1rem;
+    font-weight:600;
+    min-width:36px;
+    height:36px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:all 0.2s ease;
+}
+.qty-btn:hover {
+    background:var(--primary-dark);
+    transform:scale(1.05);
+}
+.qty-btn:active { transform:scale(0.96); }
+.cart-item-qty {
+    font-weight:700;
+    font-size:1rem;
+    min-width:28px;
+    text-align:center;
+    color:var(--text);
+}
+
+.cart-total-section {
+    background:var(--border-soft);
+    padding:28px 24px;
+    margin:28px 0;
+    border-radius:16px;
+    border:2px solid var(--border);
+    position:relative;
+    overflow:hidden;
+}
+
+.cart-total-section::before {
+    content:'';
     position:absolute;
+    top:0; left:0; right:0;
+    height:3px;
+    background:var(--primary);
+}
+.cart-total-section h3 {
+    margin:0;
+    font-size:1.15rem;
+    color:var(--text-soft);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+.cart-total-amount {
+    font-size:1.65rem;
+    font-weight:700;
+    color:var(--text);
+}
+
+.cart-section {
+    margin:22px 0;
+    padding:20px;
+    background:var(--border-soft);
+    border-radius:14px;
+    border:1px solid var(--border);
+}
+.cart-section b {
+    display:block;
+    margin-bottom:12px;
+    font-size:0.75rem;
+    color:var(--text-soft);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    font-weight:600;
+}
+
+/* BOTONES */
+input, select {
+    width:100%;
+    padding:14px 18px;
+    margin-top:10px;
+    border-radius:12px;
+    border:1px solid var(--border);
+    font-size:1rem;
+    transition:all 0.25s ease;
+    box-sizing:border-box;
+    background:var(--surface);
+    font-family:'Outfit', sans-serif;
+    font-weight:400;
+    color:var(--text-soft);
+}
+input:focus, select:focus {
+    outline:none;
+    border-color:var(--primary);
+    box-shadow:0 0 0 3px rgba(13,148,136,0.2);
+}
+input::placeholder { color:var(--muted); }
+
+.payment-buttons {
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:12px;
+}
+.payment-btn {
+    background:var(--surface);
+    border:2px solid var(--border);
+    padding:12px 18px;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:0.95rem;
+    font-weight:600;
+    transition:all 0.2s ease;
+    flex:1;
+    min-width:100px;
+    color:var(--text-soft);
+}
+.payment-btn:hover {
+    border-color:var(--muted);
+    background:var(--border-soft);
+}
+.payment-btn.active {
+    background:var(--primary);
+    color:var(--surface);
+    border-color:var(--primary);
+}
+
+.btn-wsp {
+    display:block;
+    text-align:center;
+    background:var(--primary);
+    color:var(--surface);
+    padding:18px 28px;
+    border-radius:14px;
+    margin-top:28px;
+    text-decoration:none;
+    font-size:1.05rem;
+    font-weight:600;
+    transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow:0 8px 24px rgba(13,148,136,0.3);
+    font-family:'Outfit', sans-serif;
+    letter-spacing:0.02em;
+}
+.btn-wsp:hover {
+    transform:translateY(-4px);
+    box-shadow:0 14px 36px rgba(13,148,136,0.4);
+    background:var(--primary-dark);
+}
+.btn-wsp:active { transform:translateY(0); }
+
+.empty-cart {
+    text-align:center;
+    padding:48px 24px;
+    color:var(--muted);
+}
+.empty-cart-icon {
+    font-size:3.5rem;
+    margin-bottom:16px;
+    opacity:0.4;
+}
+.empty-cart-text {
+    font-size:1rem;
+    font-weight:500;
+}
+
+/* FLOTANTE */
+.cart-float {
+    position:fixed;
+    bottom:28px;
+    right:28px;
+    background:var(--primary);
+    color:var(--surface);
+    border-radius:50%;
+    width:64px;
+    height:64px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:28px;
+    cursor:pointer;
+    box-shadow:0 12px 36px rgba(13,148,136,0.35);
+    transition:all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index:998;
+    border:2px solid var(--surface);
+}
+.cart-float:hover { 
+    transform:scale(1.08);
+    box-shadow:0 16px 44px rgba(13,148,136,0.45);
+    background:var(--primary-dark);
+}
+.cart-float-badge {
+    position:absolute;
+    top:-4px;
+    right:-4px;
+    background:var(--accent);
+    color:var(--surface);
+    border-radius:50%;
+    width:24px;
+    height:24px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:11px;
+    font-weight:700;
+    border:2px solid var(--surface);
+    animation:pulse 2s infinite;
+}
+.cart-float-badge.hidden { display:none; }
+@keyframes pulse {
+    0%, 100% { transform:scale(1); }
+    50% { transform:scale(1.08); }
+}
+
+/* MENSAJE AGREGADO */
+#addedMsg {
+    display:none;
+    position:fixed;
+    bottom:110px;
+    right:28px;
+    background:var(--primary);
+    color:var(--surface);
+    padding:14px 22px;
+    border-radius:12px;
+    font-size:0.95rem;
+    font-weight:600;
+    z-index:3000;
+    box-shadow:0 10px 32px rgba(0,0,0,0.25);
+    animation:slideUp 0.3s ease;
+    font-family:'Outfit', sans-serif;
+    letter-spacing:0.02em;
+}
+
+@keyframes slideUp {
+    from { opacity:0; transform:translateY(16px); }
+    to { opacity:1; transform:translateY(0); }
+}
+
+/* MODAL DE PRODUCTO */
+.product-modal {
+    display:none;
+    position:fixed;
+    top:0; left:0; width:100%; height:100%;
+    background:rgba(0,0,0,0.5);
+    backdrop-filter:blur(6px);
+    z-index:2000;
+    justify-content:center;
+    align-items:center;
+    padding:24px;
+    overflow-y:auto;
+}
+
+.product-modal.show { display:flex; }
+
+.modal-content {
+    background:var(--surface);
+    border-radius:20px;
+    max-width:900px;
+    width:100%;
+    max-height:90vh;
+    overflow-y:auto;
+    position:relative;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:32px;
+    padding:36px;
+    box-shadow:0 24px 64px rgba(0,0,0,0.2);
+    border:1px solid var(--border);
+}
+
+.modal-close {
+    position:absolute;
+    top:20px;
+    right:20px;
+    background:var(--border-soft);
+    border:none;
+    font-size:24px;
+    cursor:pointer;
+    color:var(--text-soft);
+    width:44px;
+    height:44px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    transition:all 0.2s ease;
+}
+
+.modal-close:hover {
+    background:var(--primary);
+    color:var(--surface);
+    transform:scale(1.05);
+}
+
+.modal-image-section {
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+}
+
+.modal-main-image {
+    width:100%;
+    height:400px;
+    border-radius:16px;
+    overflow:hidden;
+    background:var(--border-soft);
+    border:1px solid var(--border);
+}
+
+.modal-main-image img {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.modal-thumbnails {
+    display:flex;
+    gap:10px;
+    justify-content:center;
+}
+
+.modal-thumbnail {
+    width:80px;
+    height:80px;
+    border-radius:12px;
+    overflow:hidden;
+    cursor:pointer;
+    border:2px solid transparent;
+    transition:all 0.25s ease;
+}
+
+.modal-thumbnail:hover {
+    border-color:var(--muted);
+    transform:scale(1.05);
+    box-shadow:0 4px 16px rgba(0,0,0,0.12);
+}
+
+.modal-thumbnail.active {
+    border-color:var(--primary);
+    border-width:2px;
+    box-shadow:0 4px 16px rgba(13,148,136,0.25);
+}
+
+.modal-thumbnail img {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.modal-details-section {
+    display:flex;
+    flex-direction:column;
+    gap:24px;
+}
+
+.modal-category {
+    font-size:0.8rem;
+    color:var(--muted);
+    margin-bottom:4px;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+}
+
+.modal-title {
+    font-family:'Playfair Display', serif;
+    font-size:clamp(1.5rem, 3vw, 2rem);
+    font-weight:700;
+    color:var(--text);
+    margin:0;
+    letter-spacing:-0.02em;
+}
+
+.modal-price {
+    font-size:2rem;
+    font-weight:700;
+    color:var(--text);
+    margin:8px 0;
+    letter-spacing:-0.02em;
+}
+
+.modal-description {
+    font-size:1rem;
+    color:var(--text-soft);
+    line-height:1.65;
+}
+
+.modal-options {
+    display:flex;
+    flex-direction:column;
+    gap:24px;
+    margin-top:8px;
+}
+
+.modal-option-group {
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.modal-option-label {
+    font-weight:600;
+    font-size:0.8rem;
+    color:var(--text-soft);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+}
+
+.modal-quantity-selector {
+    display:flex;
+    align-items:center;
+    gap:16px;
+}
+
+.quantity-btn {
+    background:var(--primary);
+    color:var(--surface);
+    border:none;
+    width:44px;
+    height:44px;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:1.25rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:all 0.2s ease;
+}
+
+.quantity-btn:hover {
+    background:var(--primary-dark);
+    transform:scale(1.05);
+}
+
+.quantity-btn:active { transform:scale(0.96); }
+
+.quantity-value {
+    font-size:1.2rem;
+    font-weight:700;
+    min-width:44px;
+    text-align:center;
+    color:var(--text);
+}
+
+.modal-add-cart-btn {
+    background:var(--primary);
+    color:var(--surface);
+    border:none;
+    padding:20px 36px;
+    border-radius:14px;
+    font-size:1.1rem;
+    font-weight:600;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    transition:all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-top:16px;
+    box-shadow:0 8px 28px rgba(0,0,0,0.2);
+    font-family:'Outfit', sans-serif;
+    letter-spacing:0.02em;
+}
+
+.modal-add-cart-btn:hover {
+    transform:translateY(-4px);
+    box-shadow:0 16px 40px rgba(13,148,136,0.35);
+    background:var(--primary-dark);
+}
+
+.modal-add-cart-btn:active { transform:translateY(0); }
+
+@media (max-width:768px) {
+    header { flex-direction:column; gap:16px; padding:20px 16px; }
+    header .logo { font-size:1.25rem; }
+    header .auth-zone { flex-wrap:wrap; justify-content:center; }
+    .auth-btn { padding:8px 16px; font-size:0.9rem; }
+    .modal-content {
+        grid-template-columns:1fr;
+        padding:24px;
+        gap:24px;
+    }
+    .modal-main-image { height:280px; }
+    #cart { width:100%; max-width:100%; }
+    .cart-float {
+        width:56px;
+        height:56px;
+        font-size:24px;
+        bottom:20px;
+        right:20px;
+    }
+    .valentin-box { padding:32px 24px; }
+    .section-title { margin:40px 0 28px; }
+    .lima-banner { font-size:0.9rem; padding:12px 16px; }
+    .auth-modal-content { padding:28px 24px; }
+}
+
+/* ANIMACIONES */
+@keyframes fadeSlideDown {
+    to { opacity:1; transform:translateY(0); }
+}
+
+.product {
+    animation:fadeInUp 0.6s ease forwards;
+}
+.products .product:nth-child(1) { animation-delay:0.05s; }
+.products .product:nth-child(2) { animation-delay:0.1s; }
+.products .product:nth-child(3) { animation-delay:0.15s; }
+.products .product:nth-child(4) { animation-delay:0.2s; }
+.products .product:nth-child(5) { animation-delay:0.25s; }
+.products .product:nth-child(6) { animation-delay:0.3s; }
+
+@keyframes fadeInUp {
+    from {
+        opacity:0;
+        transform:translateY(30px) scale(0.98);
+    }
+    to {
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
+}
+
+/* Footer */
+.site-footer {
+    text-align:center;
+    padding:48px 24px 32px;
+    margin-top:24px;
+    border-top:1px solid var(--border);
+    color:var(--muted);
+    font-size:0.9rem;
+    font-weight:500;
+}
+
+/* Modal Auth */
+.auth-modal {
+    display:none;
+    position:fixed;
+    top:0; left:0; width:100%; height:100%;
+    background:rgba(0,0,0,0.5);
+    backdrop-filter:blur(6px);
+    z-index:2500;
+    justify-content:center;
+    align-items:center;
+    padding:24px;
+    overflow-y:auto;
+}
+.auth-modal.show { display:flex; }
+.auth-modal-content {
+    background:var(--surface);
+    border-radius:24px;
+    max-width:420px;
+    width:100%;
+    padding:40px 36px;
+    box-shadow:0 24px 64px rgba(0,0,0,0.2);
+    border:1px solid var(--border);
+    position:relative;
+}
+.auth-modal-close {
+    position:absolute;
+    top:16px;
+    right:16px;
+    background:var(--border-soft);
+    border:none;
+    font-size:22px;
+    cursor:pointer;
+    color:var(--muted);
+    width:40px;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    transition:all 0.2s ease;
+}
+.auth-modal-close:hover {
+    background:var(--primary);
+    color:var(--surface);
+}
+.auth-tabs {
+    display:flex;
+    gap:8px;
+    margin-bottom:28px;
+}
+.auth-tab {
+    flex:1;
+    padding:12px 16px;
+    border:none;
+    border-radius:12px;
+    font-size:1rem;
+    font-weight:600;
+    cursor:pointer;
+    background:var(--border-soft);
+    color:var(--muted);
+    font-family:'Outfit', sans-serif;
+    transition:all 0.25s ease;
+}
+.auth-tab.active {
+    background:var(--primary);
+    color:var(--surface);
+}
+.auth-tab:hover:not(.active) {
+    background:var(--border);
+    color:var(--text-soft);
+}
+.auth-form { display:none; }
+.auth-form.active { display:block; }
+.auth-form h3 {
+    font-family:'Playfair Display', serif;
+    font-size:1.5rem;
+    margin:0 0 20px;
+    color:var(--text);
+}
+.auth-form input {
+    margin-bottom:14px;
+}
+.auth-submit {
+    width:100%;
+    padding:16px 24px;
+    background:var(--primary);
+    color:var(--surface);
+    border:none;
+    border-radius:14px;
+    font-size:1.05rem;
+    font-weight:600;
+    cursor:pointer;
+    font-family:'Outfit', sans-serif;
+    margin-top:8px;
+    transition:all 0.25s ease;
+}
+.auth-submit:hover {
+    background:var(--primary-dark);
+    transform:translateY(-2px);
+    box-shadow:0 8px 24px rgba(13,148,136,0.35);
+}
+.auth-err {
+    color:var(--accent);
+    font-size:0.9rem;
+    margin-top:8px;
+    display:none;
+}
+.auth-err.show { display:block; }
+
+/* Banner Lima */
+.lima-banner {
+    background:linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color:var(--surface);
+    padding:14px 24px;
+    border-radius:14px;
+    margin-bottom:32px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    font-size:1rem;
+    font-weight:600;
+    box-shadow:0 8px 24px rgba(13,148,136,0.25);
+}
+.lima-banner span { font-size:1.25rem; }
+
+.cart-lima-notice {
+    background:linear-gradient(135deg, rgba(13,148,136,0.12) 0%, rgba(15,118,110,0.08) 100%);
+    border:1px solid rgba(13,148,136,0.3);
+    border-radius:12px;
+    padding:14px 18px;
+    margin-bottom:20px;
+    font-size:0.95rem;
+    color:var(--text-soft);
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+.cart-lima-notice span { font-size:1.2rem; }
+
+.cart-login-required {
+    background:var(--border-soft);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:20px;
+    margin-bottom:20px;
+    text-align:center;
+    font-size:0.95rem;
+    color:var(--text-soft);
+}
+.cart-login-required b { color:var(--primary); display:block; margin-bottom:8px; }
+.btn-wsp.disabled {
+    opacity:0.5;
     pointer-events:none;
-    animation:floatUp linear infinite;
-}
-.heart{width:20px;height:20px;background:red;clip-path:polygon(50% 0%,61% 12%,75% 12%,88% 25%,88% 37%,75% 50%,50% 100%,25% 50%,12% 37%,12% 25%,25% 12%,39% 12%);border-radius:50%;}
-.mini-dona{width:25px;height:25px;background:rgb(255,200,0);border-radius:50%;border:3px solid pink;}
-
-@keyframes floatUp{
-0%{transform:translateY(0) scale(1);}
-100%{transform:translateY(-600px) scale(1.2);}
+    cursor:not-allowed;
 }
 
-/* GRID RESPONSIVE */
-@media(max-width:600px){.grid{grid-template-columns:1fr;}}
-@media(min-width:601px) and (max-width:1024px){.grid{grid-template-columns:repeat(2,minmax(140px,1fr));}}
-@media(min-width:1025px){.grid{grid-template-columns:repeat(3,minmax(140px,1fr));}}
+/* Scrollbar personalizado */
+::-webkit-scrollbar { width:8px; height:8px; }
+
+::-webkit-scrollbar-track {
+    background:var(--border-soft);
+    border-radius:8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background:var(--muted);
+    border-radius:8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background:var(--muted);
+}
 </style>
 </head>
 <body>
 
 <header>
-<img src="img/logo.png" alt="logo">
-<h2>Las Mini Donitas de Dereck y Estrella</h2>
-<div class="cart-icon" onclick="openCart()">🛒</div>
+    <span class="logo">Las mini donitas de Dereck y Estrella</span>
+    <div class="auth-zone" id="authZone">
+        <button class="auth-btn login" id="btnLogin" onclick="openAuthModal('login')">Iniciar sesión</button>
+        <button class="auth-btn register" id="btnRegister" onclick="openAuthModal('register')">Crear cuenta</button>
+        <span class="user-hello" id="userHello" style="display:none;">Hola, <span id="userName"></span></span>
+        <button class="auth-btn logout" id="btnLogout" onclick="logout()" style="display:none;">Cerrar sesión</button>
+    </div>
 </header>
 
-<section class="san-valentin-simple">
-<h2>💘 Especial San Valentín 💘</h2>
-<p>Descubre nuestros combos románticos y dulces para compartir 💝</p>
-</section>
+<div class="container">
+    <div class="lima-banner">
+        <span>📍</span> Delivery solo a todo Lima
+    </div>
+    <div class="section-title">💘 Día de San Valentín 💘</div>
+    <div class="valentin-box">
+        <h3>Especial San Valentín</h3>
+        <p>Mini donitas para regalar con mucho amor ❤️🥰</p>
+        <p>Reserva con anticipación 💌</p>
+    </div>
 
-<section class="san-valentin-pro">
-<div class="overlay">
-<h2>❤️ San Valentín Deluxe ❤️</h2>
-<p>Combos especiales para enamorados 💕</p>
-<button onclick="document.getElementById('donasProducts').scrollIntoView({behavior:'smooth'});">Ver combos</button>
-</div>
-</section>
+    <div class="products">
+        <div class="product">
+            <div class="product-img" onclick="openProductModal('Combo San Valentín de 8 mini donitas', 12, 'combo_san_valentin_8.jpg', 'Combo especial para San Valentín con 8 deliciosas mini donitas decoradas con temática romántica. Perfecto para compartir con tu persona especial.')">
+                <img src="combo_san_valentin_8.jpg">
+            </div>
+            <h4>Combo San Valentín de 8 mini donitas</h4>
+            <p>S/ 12</p>
+        </div>
+        <div class="product">
+            <div class="product-img" onclick="openProductModal('Combo Cupido de 5 mini donas', 8, 'combo_cupido_5.jpg', 'Combo Cupido con 5 mini donas especiales, ideales para expresar tu amor. Incluye decoraciones temáticas y sabores únicos.')">
+                <img src="combo_cupido_5.jpg">
+            </div>
+            <h4>Combo Cupido de 5 mini donas</h4>
+            <p>S/ 8</p>
+        </div>
+    </div>
 
-<section class="donas-pro">
-<div class="overlay">
-<h2>🍩 Nuestros Combos de Mini Donitas 🍩</h2>
-<p>Los combos más dulces y deliciosos para compartir 😋</p>
-<div class="grid" id="donasProducts"></div>
-<button onclick="document.getElementById('donasProducts').scrollIntoView({behavior:'smooth'});">Ver combos arriba</button>
-</div>
-</section>
+    <div class="section-title">🍩 Nuestros Combos de Mini Donitas 🍩</div>
+    <div class="products" id="productList"></div>
 
-<!-- MODAL -->
-<div class="modal" id="modal">
-<div class="modal-content">
-<h3 id="mTitle"></h3>
-<p><b>Precio:</b> S/ <span id="mPrice"></span></p>
-<div class="qty-box">
-<button onclick="changeQty(-1)">-</button>
-<span id="mQty">1</span>
-<button onclick="changeQty(1)">+</button>
-</div>
-<button class="btn-add" onclick="addToCart()">Agregar al carrito</button>
-<button class="btn-close" onclick="closeModal()">Cerrar</button>
-</div>
+    <footer class="site-footer">
+        Hecho con ❤️ · Mini donitas de Dereck y Estrella
+    </footer>
 </div>
 
-<!-- CARRITO -->
-<div class="cart" id="cart">
-<button class="close-cart" onclick="closeCart()">Cerrar Carrito</button>
-<h2>Carrito</h2>
-<div id="cartItems"></div>
-<h3>Total: S/ <span id="cartTotal">0</span></h3>
-<div class="cart-actions">
-<button class="wsp-btn" onclick="sendWhatsApp()">🛒 Enviar pedido a WhatsApp</button>
-<button class="pay-btn" onclick="alert('Aquí irán los pagos 😊')">💳 Agregar pagos</button>
+<!-- Modal de Producto -->
+<div id="productModal" class="product-modal">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeProductModal()">×</button>
+        <div class="modal-image-section">
+            <div class="modal-main-image">
+                <img id="modalMainImage" src="" alt="Producto">
+            </div>
+            <div class="modal-thumbnails" id="modalThumbnails"></div>
+        </div>
+        <div class="modal-details-section">
+            <div class="modal-category" id="modalCategory">Combo</div>
+            <h2 class="modal-title" id="modalTitle"></h2>
+            <div class="modal-price" id="modalPrice"></div>
+            <p class="modal-description" id="modalDescription"></p>
+            <div class="modal-options">
+                <div class="modal-option-group">
+                    <label class="modal-option-label">Cantidad</label>
+                    <div class="modal-quantity-selector">
+                        <button class="quantity-btn" onclick="changeModalQuantity(-1)">-</button>
+                        <span class="quantity-value" id="modalQuantity">1</span>
+                        <button class="quantity-btn" onclick="changeModalQuantity(1)">+</button>
+                    </div>
+                </div>
+                <button class="modal-add-cart-btn" onclick="addFromModal()">
+                    🛒 Añadir al carrito
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
+
+<!-- Modal Auth -->
+<div id="authModal" class="auth-modal">
+    <div class="auth-modal-content">
+        <button class="auth-modal-close" onclick="closeAuthModal()">×</button>
+        <div class="auth-tabs">
+            <button class="auth-tab active" id="tabLogin" onclick="switchAuthTab('login')">Iniciar sesión</button>
+            <button class="auth-tab" id="tabRegister" onclick="switchAuthTab('register')">Crear cuenta</button>
+        </div>
+        <form class="auth-form active" id="formLogin" onsubmit="return doLogin(event)">
+            <h3>Iniciar sesión</h3>
+            <input type="email" id="loginEmail" placeholder="Correo" required>
+            <input type="password" id="loginPassword" placeholder="Contraseña" required>
+            <p class="auth-err" id="loginErr"></p>
+            <button type="submit" class="auth-submit">Entrar</button>
+        </form>
+        <form class="auth-form" id="formRegister" onsubmit="return doRegister(event)">
+            <h3>Crear cuenta</h3>
+            <input type="text" id="regName" placeholder="Nombre completo" required>
+            <input type="email" id="regEmail" placeholder="Correo" required>
+            <input type="password" id="regPassword" placeholder="Contraseña" required>
+            <p class="auth-err" id="regErr"></p>
+            <button type="submit" class="auth-submit">Registrarme</button>
+        </form>
+    </div>
 </div>
+
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+
+<div id="cart">
+    <div class="cart-header">
+        <h2>🛒 Carrito</h2>
+        <button class="cart-close-btn" onclick="toggleCart()">×</button>
+    </div>
+    
+    <div class="cart-content">
+        <div id="cartItems"></div>
+        
+        <div class="cart-total-section">
+            <h3>
+                <span>Total:</span>
+                <span class="cart-total-amount">S/ <span id="total">0</span></span>
+            </h3>
+        </div>
+
+        <div class="cart-lima-notice">
+            <span>📍</span> Delivery solo a todo Lima. Indica tu dirección dentro de Lima.
+        </div>
+
+        <div class="cart-login-required" id="cartLoginRequired">
+            <b>Inicia sesión para comprar</b>
+            Debes iniciar sesión o crear una cuenta para enviar tu pedido.
+        </div>
+
+        <div class="cart-section" id="cartFormSection">
+            <b>Datos del pedido:</b>
+            <input id="clientName" placeholder="Nombre completo">
+            <input id="clientAddress" placeholder="Dirección en Lima (ej. distrito, calle, ref.)">
+            <input id="clientDate" type="date">
+            <input id="giftMessage" placeholder="Mensaje para regalo (opcional)">
+        </div>
+
+        <div class="cart-section">
+            <b>Pago con:</b>
+            <div class="payment-buttons">
+                <button class="payment-btn" id="yapeBtn" onclick="setPayment('Yape')">💳 Yape</button>
+            </div>
+            <div id="qrPayment" style="text-align:center; margin-top:15px;"></div>
+        </div>
+
+        <a id="whatsappBtn" class="btn-wsp" href="#" target="_blank" onclick="return handleWhatsAppClick(event)">
+            📱 Enviar pedido por WhatsApp
+        </a>
+        <p class="auth-err" id="cartLoginErr" style="margin-top:12px;text-align:center;"></p>
+    </div>
+</div>
+
+<div class="cart-float" onclick="toggleCart()">
+    🛒
+    <span class="cart-float-badge hidden" id="cartBadge">0</span>
+</div>
+<div id="addedMsg">Agregado ✔</div>
 
 <script>
-// PRODUCTOS
-let products=[
-{name:"Combo 4 mini donas",price:10,img:"img/4.jpg"},
-{name:"Combo 6 mini donas",price:12,img:"img/6.jpg"},
-{name:"Combo 8 mini donas",price:14,img:"img/8.jpg"},
-{name:"Combo 12 mini donas",price:18,img:"img/12.jpg"},
-{name:"Combo 16 mini donas",price:22,img:"img/16.jpg"},
-{name:"Combo 18 mini donas",price:24,img:"img/18.jpg"},
-{name:"Combo 22 mini donas",price:28,img:"img/22.jpg"},
-{name:"Combo 24 mini donas",price:30,img:"img/24.jpg"},
-{name:"Combo 26 mini donas",price:32,img:"img/26.jpg"},
-{name:"Combo 28 mini donas",price:34,img:"img/28.jpg"},
-{name:"Combo 32 mini donas",price:38,img:"img/32.jpg"},
-{name:"Combo 36 mini donas",price:42,img:"img/36.jpg"},
-{name:"Combo 38 mini donas",price:44,img:"img/38.jpg"},
-{name:"Combo 42 mini donas",price:48,img:"img/42.jpg"},
-{name:"Combo 46 mini donas",price:52,img:"img/46.jpg"},
-{name:"Combo 48 mini donas",price:54,img:"img/48.jpg"},
-{name:"Combo 52 mini donas",price:56,img:"img/52.jpg"},
-];
+const AUTH_KEY = 'minidonitas_user';
 
-let donasGrid=document.getElementById("donasProducts");
-products.forEach((p,i)=>{
-donasGrid.innerHTML += `<div class="card" onclick="openModal(${i})"><img src="${p.img}"><h4>${p.name}</h4><b>S/ ${p.price}</b></div>`;
+let products=[
+    {name:"Combo 5 mini donas",price:8,image:"combo_5.jpg",description:"Combo con 5 deliciosas mini donitas artesanales. Variedad de sabores y decoraciones únicas."},
+    {name:"Combo 6 mini donas",price:10,image:"combo_6.jpg",description:"Combo con 6 mini donitas especiales. Perfecto para compartir o disfrutar solo."},
+    {name:"Combo 8 mini donas",price:12,image:"combo_8.jpg",description:"Combo con 8 mini donitas premium. La opción ideal para ocasiones especiales."}
+];
+let cart=[];
+let paymentMethod="";
+
+function getStoredUser() {
+    try {
+        let j = localStorage.getItem(AUTH_KEY);
+        return j ? JSON.parse(j) : null;
+    } catch (e) { return null; }
+}
+function setStoredUser(u) {
+    if (u) localStorage.setItem(AUTH_KEY, JSON.stringify(u));
+    else localStorage.removeItem(AUTH_KEY);
+}
+function isLoggedIn() { return !!getStoredUser(); }
+function getCurrentUser() { return getStoredUser(); }
+
+function renderAuthUI() {
+    let user = getCurrentUser();
+    document.getElementById('btnLogin').style.display = user ? 'none' : 'inline-block';
+    document.getElementById('btnRegister').style.display = user ? 'none' : 'inline-block';
+    document.getElementById('userHello').style.display = user ? 'inline' : 'none';
+    document.getElementById('userName').textContent = user ? user.name : '';
+    document.getElementById('btnLogout').style.display = user ? 'inline-block' : 'none';
+    updateCart();
+}
+
+function openAuthModal(mode) {
+    document.getElementById('authModal').classList.add('show');
+    document.body.style.overflow = 'hidden';
+    switchAuthTab(mode);
+    document.getElementById('loginErr').classList.remove('show');
+    document.getElementById('regErr').classList.remove('show');
+}
+function closeAuthModal() {
+    document.getElementById('authModal').classList.remove('show');
+    document.body.style.overflow = 'auto';
+}
+function switchAuthTab(mode) {
+    document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+    if (mode === 'login') {
+        document.getElementById('tabLogin').classList.add('active');
+        document.getElementById('formLogin').classList.add('active');
+    } else {
+        document.getElementById('tabRegister').classList.add('active');
+        document.getElementById('formRegister').classList.add('active');
+    }
+    document.getElementById('loginErr').classList.remove('show');
+    document.getElementById('regErr').classList.remove('show');
+}
+
+function doLogin(e) {
+    e.preventDefault();
+    let email = document.getElementById('loginEmail').value.trim().toLowerCase();
+    let pass = document.getElementById('loginPassword').value;
+    let err = document.getElementById('loginErr');
+    let stored = null;
+    try {
+        let raw = localStorage.getItem('minidonitas_users');
+        let users = raw ? JSON.parse(raw) : {};
+        stored = users[email] || null;
+    } catch (x) { stored = null; }
+    if (!stored || stored.password !== pass) {
+        err.textContent = 'Correo o contraseña incorrectos.';
+        err.classList.add('show');
+        return false;
+    }
+    setStoredUser({ name: stored.name, email: stored.email });
+    closeAuthModal();
+    renderAuthUI();
+    return false;
+}
+
+function doRegister(e) {
+    e.preventDefault();
+    let name = document.getElementById('regName').value.trim();
+    let email = document.getElementById('regEmail').value.trim().toLowerCase();
+    let pass = document.getElementById('regPassword').value;
+    let err = document.getElementById('regErr');
+    if (pass.length < 4) {
+        err.textContent = 'La contraseña debe tener al menos 4 caracteres.';
+        err.classList.add('show');
+        return false;
+    }
+    let users = {};
+    try {
+        let raw = localStorage.getItem('minidonitas_users');
+        if (raw) users = JSON.parse(raw);
+    } catch (x) {}
+    users[email] = { name, email, password: pass };
+    localStorage.setItem('minidonitas_users', JSON.stringify(users));
+    setStoredUser({ name, email });
+    closeAuthModal();
+    renderAuthUI();
+    return false;
+}
+
+function logout() {
+    setStoredUser(null);
+    renderAuthUI();
+}
+
+function handleWhatsAppClick(e) {
+    if (!isLoggedIn()) {
+        e.preventDefault();
+        openAuthModal('login');
+        return false;
+    }
+    if (cart.length === 0) {
+        e.preventDefault();
+        return false;
+    }
+    return true;
+}
+
+function renderProducts(){
+    let html="";
+    products.forEach(p=>{
+        let imgSrc=p.image || "combo_default.jpg";
+        let description=p.description || `${p.name} con deliciosas mini donitas artesanales. Perfecto para compartir o regalar.`;
+        html+=`
+        <div class="product">
+            <div class="product-img" onclick="openProductModal('${p.name}',${p.price},'${imgSrc}','${description}')" style="cursor:pointer;">
+                ${p.image ? `<img src="${imgSrc}">` : "Imagen aquí"}
+            </div>
+            <h4>${p.name}</h4>
+            <p>S/ ${p.price}</p>
+        </div>`;
+    });
+    document.getElementById("productList").innerHTML=html;
+    animateOnScroll();
+}
+renderProducts();
+renderAuthUI();
+
+function addToCart(name,price){
+    let prod=cart.find(p=>p.name===name);
+    if(prod) prod.qty++;
+    else cart.push({name,price,qty:1});
+    showAdded();
+    updateCart();
+}
+
+function showAdded(){
+    let msg=document.getElementById("addedMsg");
+    msg.style.display="block";
+    setTimeout(()=> msg.style.display="none", 1200);
+}
+
+let currentModalProduct = null;
+let modalQuantity = 1;
+
+function openProductModal(name, price, image, description) {
+    currentModalProduct = { name, price, image, description };
+    modalQuantity = 1;
+    
+    document.getElementById("modalTitle").textContent = name;
+    document.getElementById("modalPrice").textContent = `S/ ${price}`;
+    document.getElementById("modalDescription").textContent = description;
+    document.getElementById("modalMainImage").src = image;
+    document.getElementById("modalQuantity").textContent = modalQuantity;
+    
+    // Limpiar miniaturas y agregar la imagen principal como miniatura
+    let thumbnails = document.getElementById("modalThumbnails");
+    thumbnails.innerHTML = `
+        <div class="modal-thumbnail active" onclick="changeModalImage('${image}')">
+            <img src="${image}" alt="Vista principal">
+        </div>
+    `;
+    
+    document.getElementById("productModal").classList.add("show");
+    document.body.style.overflow = "hidden";
+}
+
+function closeProductModal() {
+    document.getElementById("productModal").classList.remove("show");
+    document.body.style.overflow = "auto";
+    currentModalProduct = null;
+    modalQuantity = 1;
+}
+
+function changeModalQuantity(amount) {
+    modalQuantity = Math.max(1, modalQuantity + amount);
+    document.getElementById("modalQuantity").textContent = modalQuantity;
+}
+
+function changeModalImage(imageSrc) {
+    document.getElementById("modalMainImage").src = imageSrc;
+    document.querySelectorAll(".modal-thumbnail").forEach(thumb => {
+        thumb.classList.remove("active");
+        if(thumb.querySelector("img").src.includes(imageSrc)) {
+            thumb.classList.add("active");
+        }
+    });
+}
+
+function addFromModal() {
+    if(currentModalProduct) {
+        for(let i = 0; i < modalQuantity; i++) {
+            addToCart(currentModalProduct.name, currentModalProduct.price);
+        }
+        closeProductModal();
+    }
+}
+
+document.addEventListener("click", function(e) {
+    let modal = document.getElementById("productModal");
+    if(e.target === modal) closeProductModal();
+    let authModal = document.getElementById("authModal");
+    if(e.target === authModal) closeAuthModal();
 });
 
-// MODAL Y CARRITO
-let modal=document.getElementById("modal");let mTitle=document.getElementById("mTitle");let mPrice=document.getElementById("mPrice");let mQty=document.getElementById("mQty");let selectedIndex=0, qty=1;
-function openModal(i){selectedIndex=i;qty=1;mQty.innerText=qty;mTitle.innerText=products[i].name;mPrice.innerText=products[i].price;modal.style.display="flex";}
-function closeModal(){modal.style.display="none";}
-function changeQty(n){qty+=n;if(qty<1)qty=1;mQty.innerText=qty;}
-let cart=[];
-function addToCart(){let item=products[selectedIndex];let found=cart.find(c=>c.name===item.name);if(found)found.qty+=qty;else cart.push({name:item.name,price:item.price,qty:qty});closeModal();updateCart();openCart();}
-function openCart(){document.getElementById("cart").style.display="block";}
-function closeCart(){document.getElementById("cart").style.display="none";}
-function updateCart(){let div=document.getElementById("cartItems");div.innerHTML="";let total=0;cart.forEach((c,i)=>{total+=c.price*c.qty;div.innerHTML+=`<div class="cart-item"><span>${c.name} x${c.qty}</span><div><button onclick="changeCartQty(${i},-1)">-</button><button onclick="changeCartQty(${i},1)">+</button></div></div>`;});document.getElementById("cartTotal").innerText=total;}
-function changeCartQty(i,n){cart[i].qty+=n;if(cart[i].qty<=0)cart.splice(i,1);updateCart();}
-function sendWhatsApp(){let text="Hola, quiero pedir:%0A";cart.forEach(c=>{text+=`🔹 ${c.name} x${c.qty}%0A`;});text+=`%0A Total: S/ ${document.getElementById("cartTotal").innerText}`;window.open(`https://wa.me/51942177994?text=${text}`,"_blank");}
+function toggleCart(){
+    let cart = document.getElementById("cart");
+    let overlay = document.getElementById("cartOverlay");
+    cart.classList.toggle("show");
+    overlay.classList.toggle("show");
+    if(cart.classList.contains("show")) {
+        document.body.style.overflow = "hidden";
+    } else {
+        document.body.style.overflow = "auto";
+    }
+}
 
-// CREAR CORAZONCITOS Y DONITAS FLOTANDO
-function createHeart(){
-    let heart=document.createElement('div'); heart.className='heart';
-    heart.style.left=Math.random()*window.innerWidth+'px';
-    heart.style.animationDuration=(3+Math.random()*3)+'s';
-    document.body.appendChild(heart);
-    setTimeout(()=>heart.remove(),6000);
+function changeQty(i,amt){
+    cart[i].qty+=amt;
+    if(cart[i].qty<=0) cart.splice(i,1);
+    updateCart();
 }
-function createMiniDona(){
-    let dona=document.createElement('div'); dona.className='mini-dona';
-    dona.style.left=Math.random()*window.innerWidth+'px';
-    dona.style.animationDuration=(4+Math.random()*4)+'s';
-    document.body.appendChild(dona);
-    setTimeout(()=>dona.remove(),8000);
+
+function removeFromCart(i){
+    cart.splice(i,1);
+    updateCart();
 }
-setInterval(createHeart,500); // cada 0.5s aparece un corazón
-setInterval(createMiniDona,800); // cada 0.8s aparece una mini dona
+
+function setPayment(method){
+    paymentMethod=method;
+    document.getElementById("qrPayment").innerHTML='<img src="img/yape_nandy.jpeg" style="width:200px;border-radius:12px;border:1px solid #e2e8f0;box-shadow:0 8px 24px rgba(0,0,0,0.1);">';
+    // Actualizar estado visual del botón
+    document.querySelectorAll(".payment-btn").forEach(btn => {
+        btn.classList.remove("active");
+    });
+    if(method === "Yape") {
+        document.getElementById("yapeBtn").classList.add("active");
+    }
+    updateCart();
+}
+
+function updateCart(){
+    let html="",total=0;
+    let totalItems=0;
+    
+    if(cart.length === 0) {
+        html = `
+            <div class="empty-cart">
+                <div class="empty-cart-icon">🛒</div>
+                <div class="empty-cart-text">Tu carrito está vacío</div>
+            </div>
+        `;
+    } else {
+        cart.forEach((p,i)=>{
+            totalItems += p.qty;
+            let itemTotal = p.price * p.qty;
+            total += itemTotal;
+            html += `
+                <div class="cart-item">
+                    <div class="cart-item-header">
+                        <span class="cart-item-name">${p.name}</span>
+                        <button class="cart-item-remove" onclick="removeFromCart(${i})" title="Eliminar">×</button>
+                    </div>
+                    <div class="cart-item-details">
+                        <span class="cart-item-price">S/ ${itemTotal.toFixed(2)}</span>
+                        <div class="cart-item-controls">
+                            <button class="qty-btn" onclick="changeQty(${i},-1)">-</button>
+                            <span class="cart-item-qty">${p.qty}</span>
+                            <button class="qty-btn" onclick="changeQty(${i},1)">+</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+    }
+    
+    document.getElementById("cartItems").innerHTML=html;
+    document.getElementById("total").innerText=total.toFixed(2);
+    
+    // Actualizar badge del carrito flotante
+    let badge = document.getElementById("cartBadge");
+    if(totalItems > 0) {
+        badge.textContent = totalItems;
+        badge.classList.remove("hidden");
+    } else {
+        badge.classList.add("hidden");
+    }
+
+    let name=document.getElementById("clientName").value;
+    let address=document.getElementById("clientAddress").value;
+    let date=document.getElementById("clientDate").value;
+    let message=document.getElementById("giftMessage").value;
+
+    // Actualizar enlace de WhatsApp
+    let whatsappText = `Pedido:%0A${
+        cart.map(p=>`- ${p.name} (x${p.qty}) S/ ${(p.qty*p.price).toFixed(2)}`).join("%0A")
+    }%0A%0ATotal:%20S/%20${total.toFixed(2)}%0AEntrega:%20Delivery%20-%20Solo%20Lima%0APago:%20${paymentMethod||"No seleccionado"}%0ANombre:%20${name||"No indicado"}%0ADirección%20(Lima):%20${address||"No indicada"}%0AFecha:%20${date||"No indicada"}${
+        message?`%0AMensaje:%20${message}`:""
+    }`;
+    
+    document.getElementById("whatsappBtn").href = `https://wa.me/51942177994?text=${whatsappText}`;
+    
+    let loggedIn = isLoggedIn();
+    document.getElementById("cartLoginRequired").style.display = loggedIn ? "none" : "block";
+    document.getElementById("cartLoginErr").classList.remove("show");
+    
+    let btn = document.getElementById("whatsappBtn");
+    if (cart.length === 0) {
+        btn.style.opacity = "0.5";
+        btn.style.pointerEvents = "none";
+        btn.classList.add("disabled");
+        btn.href = "#";
+    } else if (!loggedIn) {
+        btn.style.opacity = "0.85";
+        btn.style.pointerEvents = "auto";
+        btn.classList.remove("disabled");
+        btn.href = "#";
+    } else {
+        btn.style.opacity = "1";
+        btn.style.pointerEvents = "auto";
+        btn.classList.remove("disabled");
+    }
+}
+
+document.querySelectorAll("input, select").forEach(el=>{
+    el.addEventListener("input", updateCart);
+});
+
+/* ANIMACIÓN SCROLL */
+function animateOnScroll(){
+    let elements=document.querySelectorAll(".valentin-box,.section-title,.product");
+    let windowHeight=window.innerHeight;
+    elements.forEach(el=>{
+        let pos=el.getBoundingClientRect().top;
+        if(pos<windowHeight-50){
+            el.style.opacity=1;
+            el.style.transform="translateY(0) scale(1)";
+        }
+    });
+}
+window.addEventListener("scroll", animateOnScroll);
 </script>
-
 </body>
 </html>
