@@ -83,56 +83,6 @@ header {
     letter-spacing:-0.02em;
 }
 header .logo { flex:1; text-align:center; }
-header .auth-zone {
-    display:flex;
-    align-items:center;
-    gap:12px;
-    font-family:'Outfit', sans-serif;
-    font-size:0.95rem;
-}
-.auth-btn {
-    padding:10px 20px;
-    border-radius:12px;
-    font-weight:600;
-    cursor:pointer;
-    border:none;
-    transition:all 0.25s ease;
-    text-decoration:none;
-    font-family:'Outfit', sans-serif;
-}
-.auth-btn.login {
-    background:transparent;
-    color:var(--primary);
-    border:2px solid var(--primary);
-}
-.auth-btn.login:hover {
-    background:var(--primary);
-    color:var(--surface);
-}
-.auth-btn.register {
-    background:var(--primary);
-    color:var(--surface);
-}
-.auth-btn.register:hover {
-    background:var(--primary-dark);
-    transform:translateY(-2px);
-    box-shadow:0 6px 20px rgba(13,148,136,0.35);
-}
-.user-hello {
-    color:var(--text-soft);
-    font-weight:500;
-}
-.user-hello span { color:var(--primary); font-weight:600; }
-.auth-btn.logout {
-    background:var(--border-soft);
-    color:var(--muted);
-    padding:8px 16px;
-    font-size:0.9rem;
-}
-.auth-btn.logout:hover {
-    background:var(--accent);
-    color:var(--surface);
-}
 
 /* TITULOS */
 .section-title {
@@ -932,8 +882,6 @@ input::placeholder { color:var(--muted); }
 @media (max-width:768px) {
     header { flex-direction:column; gap:16px; padding:20px 16px; }
     header .logo { font-size:1.25rem; }
-    header .auth-zone { flex-wrap:wrap; justify-content:center; }
-    .auth-btn { padding:8px 16px; font-size:0.9rem; }
     .modal-content {
         grid-template-columns:1fr;
         padding:24px;
@@ -951,7 +899,6 @@ input::placeholder { color:var(--muted); }
     .valentin-box { padding:32px 24px; }
     .section-title { margin:40px 0 28px; }
     .lima-banner { font-size:0.9rem; padding:12px 16px; }
-    .auth-modal-content { padding:28px 24px; }
 }
 
 /* ANIMACIONES */
@@ -991,115 +938,6 @@ input::placeholder { color:var(--muted); }
     font-weight:500;
 }
 
-/* Modal Auth */
-.auth-modal {
-    display:none;
-    position:fixed;
-    top:0; left:0; width:100%; height:100%;
-    background:rgba(0,0,0,0.5);
-    backdrop-filter:blur(6px);
-    z-index:2500;
-    justify-content:center;
-    align-items:center;
-    padding:24px;
-    overflow-y:auto;
-}
-.auth-modal.show { display:flex; }
-.auth-modal-content {
-    background:var(--surface);
-    border-radius:24px;
-    max-width:420px;
-    width:100%;
-    padding:40px 36px;
-    box-shadow:0 24px 64px rgba(0,0,0,0.2);
-    border:1px solid var(--border);
-    position:relative;
-}
-.auth-modal-close {
-    position:absolute;
-    top:16px;
-    right:16px;
-    background:var(--border-soft);
-    border:none;
-    font-size:22px;
-    cursor:pointer;
-    color:var(--muted);
-    width:40px;
-    height:40px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:50%;
-    transition:all 0.2s ease;
-}
-.auth-modal-close:hover {
-    background:var(--primary);
-    color:var(--surface);
-}
-.auth-tabs {
-    display:flex;
-    gap:8px;
-    margin-bottom:28px;
-}
-.auth-tab {
-    flex:1;
-    padding:12px 16px;
-    border:none;
-    border-radius:12px;
-    font-size:1rem;
-    font-weight:600;
-    cursor:pointer;
-    background:var(--border-soft);
-    color:var(--muted);
-    font-family:'Outfit', sans-serif;
-    transition:all 0.25s ease;
-}
-.auth-tab.active {
-    background:var(--primary);
-    color:var(--surface);
-}
-.auth-tab:hover:not(.active) {
-    background:var(--border);
-    color:var(--text-soft);
-}
-.auth-form { display:none; }
-.auth-form.active { display:block; }
-.auth-form h3 {
-    font-family:'Playfair Display', serif;
-    font-size:1.5rem;
-    margin:0 0 20px;
-    color:var(--text);
-}
-.auth-form input {
-    margin-bottom:14px;
-}
-.auth-submit {
-    width:100%;
-    padding:16px 24px;
-    background:var(--primary);
-    color:var(--surface);
-    border:none;
-    border-radius:14px;
-    font-size:1.05rem;
-    font-weight:600;
-    cursor:pointer;
-    font-family:'Outfit', sans-serif;
-    margin-top:8px;
-    transition:all 0.25s ease;
-}
-.auth-submit:hover {
-    background:var(--primary-dark);
-    transform:translateY(-2px);
-    box-shadow:0 8px 24px rgba(13,148,136,0.35);
-}
-.auth-err {
-    color:var(--accent);
-    font-size:0.9rem;
-    margin-top:8px;
-    display:none;
-}
-.auth-err.show { display:block; }
-
 /* Banner Lima */
 .lima-banner {
     background:linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
@@ -1131,17 +969,6 @@ input::placeholder { color:var(--muted); }
 }
 .cart-lima-notice span { font-size:1.2rem; }
 
-.cart-login-required {
-    background:var(--border-soft);
-    border:1px solid var(--border);
-    border-radius:14px;
-    padding:20px;
-    margin-bottom:20px;
-    text-align:center;
-    font-size:0.95rem;
-    color:var(--text-soft);
-}
-.cart-login-required b { color:var(--primary); display:block; margin-bottom:8px; }
 .btn-wsp.disabled {
     opacity:0.5;
     pointer-events:none;
@@ -1170,12 +997,6 @@ input::placeholder { color:var(--muted); }
 
 <header>
     <span class="logo">Las mini donitas de Dereck y Estrella</span>
-    <div class="auth-zone" id="authZone">
-        <button class="auth-btn login" id="btnLogin" onclick="openAuthModal('login')">Iniciar sesión</button>
-        <button class="auth-btn register" id="btnRegister" onclick="openAuthModal('register')">Crear cuenta</button>
-        <span class="user-hello" id="userHello" style="display:none;">Hola, <span id="userName"></span></span>
-        <button class="auth-btn logout" id="btnLogout" onclick="logout()" style="display:none;">Cerrar sesión</button>
-    </div>
 </header>
 
 <div class="container">
@@ -1191,17 +1012,17 @@ input::placeholder { color:var(--muted); }
 
     <div class="products">
         <div class="product">
-            <div class="product-img" onclick="openProductModal('Combo San Valentín de 8 mini donitas', 12, 'combo_san_valentin_8.jpg', 'Combo especial para San Valentín con 8 deliciosas mini donitas decoradas con temática romántica. Perfecto para compartir con tu persona especial.')">
-                <img src="combo_san_valentin_8.jpg">
+            <div class="product-img" onclick="openProductModal('Combo San Valentín de 5 mini donitas', 8, 'img/Donas san valentin 2.png', 'Combo especial para San Valentín con 5 deliciosas mini donitas decoradas con temática romántica. Perfecto para compartir con tu persona especial.')">
+                <img src="img/Donas san valentin 2.png" alt="Combo San Valentín de 5 mini donitas">
             </div>
-            <h4>Combo San Valentín de 8 mini donitas</h4>
+            <h4>Combo San Valentín de 5 mini donitas</h4>
             <p>S/ 12</p>
         </div>
         <div class="product">
-            <div class="product-img" onclick="openProductModal('Combo Cupido de 5 mini donas', 8, 'combo_cupido_5.jpg', 'Combo Cupido con 5 mini donas especiales, ideales para expresar tu amor. Incluye decoraciones temáticas y sabores únicos.')">
-                <img src="combo_cupido_5.jpg">
+            <div class="product-img" onclick="openProductModal('Combo Cupido de 6 mini donas', 10, 'img/donas san valentin 1.png', 'Combo Cupido con 6 mini donas especiales, ideales para expresar tu amor. Incluye decoraciones temáticas y sabores únicos.')">
+                <img src="img/donas san valentin 1.png" alt="Combo Cupido de 6 mini donas">
             </div>
-            <h4>Combo Cupido de 5 mini donas</h4>
+            <h4>Combo Cupido de 6 mini donas</h4>
             <p>S/ 8</p>
         </div>
     </div>
@@ -1246,32 +1067,6 @@ input::placeholder { color:var(--muted); }
     </div>
 </div>
 
-<!-- Modal Auth -->
-<div id="authModal" class="auth-modal">
-    <div class="auth-modal-content">
-        <button class="auth-modal-close" onclick="closeAuthModal()">×</button>
-        <div class="auth-tabs">
-            <button class="auth-tab active" id="tabLogin" onclick="switchAuthTab('login')">Iniciar sesión</button>
-            <button class="auth-tab" id="tabRegister" onclick="switchAuthTab('register')">Crear cuenta</button>
-        </div>
-        <form class="auth-form active" id="formLogin" onsubmit="return doLogin(event)">
-            <h3>Iniciar sesión</h3>
-            <input type="email" id="loginEmail" placeholder="Correo" required>
-            <input type="password" id="loginPassword" placeholder="Contraseña" required>
-            <p class="auth-err" id="loginErr"></p>
-            <button type="submit" class="auth-submit">Entrar</button>
-        </form>
-        <form class="auth-form" id="formRegister" onsubmit="return doRegister(event)">
-            <h3>Crear cuenta</h3>
-            <input type="text" id="regName" placeholder="Nombre completo" required>
-            <input type="email" id="regEmail" placeholder="Correo" required>
-            <input type="password" id="regPassword" placeholder="Contraseña" required>
-            <p class="auth-err" id="regErr"></p>
-            <button type="submit" class="auth-submit">Registrarme</button>
-        </form>
-    </div>
-</div>
-
 <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
 
 <div id="cart">
@@ -1294,11 +1089,6 @@ input::placeholder { color:var(--muted); }
             <span>📍</span> Delivery solo a todo Lima. Indica tu dirección dentro de Lima.
         </div>
 
-        <div class="cart-login-required" id="cartLoginRequired">
-            <b>Inicia sesión para comprar</b>
-            Debes iniciar sesión o crear una cuenta para enviar tu pedido.
-        </div>
-
         <div class="cart-section" id="cartFormSection">
             <b>Datos del pedido:</b>
             <input id="clientName" placeholder="Nombre completo">
@@ -1318,7 +1108,6 @@ input::placeholder { color:var(--muted); }
         <a id="whatsappBtn" class="btn-wsp" href="#" target="_blank" onclick="return handleWhatsAppClick(event)">
             📱 Enviar pedido por WhatsApp
         </a>
-        <p class="auth-err" id="cartLoginErr" style="margin-top:12px;text-align:center;"></p>
     </div>
 </div>
 
@@ -1329,121 +1118,15 @@ input::placeholder { color:var(--muted); }
 <div id="addedMsg">Agregado ✔</div>
 
 <script>
-const AUTH_KEY = 'minidonitas_user';
-
 let products=[
-    {name:"Combo 5 mini donas",price:8,image:"combo_5.jpg",description:"Combo con 5 deliciosas mini donitas artesanales. Variedad de sabores y decoraciones únicas."},
-    {name:"Combo 6 mini donas",price:10,image:"combo_6.jpg",description:"Combo con 6 mini donitas especiales. Perfecto para compartir o disfrutar solo."},
-    {name:"Combo 8 mini donas",price:12,image:"combo_8.jpg",description:"Combo con 8 mini donitas premium. La opción ideal para ocasiones especiales."}
+    {name:"Combo 5 mini donitas",price:8,image:"img/donas de 5.png",description:"Combo con 5 deliciosas mini donitas artesanales. Variedad de sabores y decoraciones únicas."},
+    {name:"Combo 6 mini donitas",price:10,image:"img/6 donitas.jpeg",description:"Combo con 6 mini donitas especiales. Perfecto para compartir o disfrutar solo."},
+    {name:"Combo 8 mini donitas",price:12,image:"img/8 minidonas.jpeg",description:"Combo con 8 mini donitas premium. La opción ideal para ocasiones especiales."}
 ];
 let cart=[];
 let paymentMethod="";
 
-function getStoredUser() {
-    try {
-        let j = localStorage.getItem(AUTH_KEY);
-        return j ? JSON.parse(j) : null;
-    } catch (e) { return null; }
-}
-function setStoredUser(u) {
-    if (u) localStorage.setItem(AUTH_KEY, JSON.stringify(u));
-    else localStorage.removeItem(AUTH_KEY);
-}
-function isLoggedIn() { return !!getStoredUser(); }
-function getCurrentUser() { return getStoredUser(); }
-
-function renderAuthUI() {
-    let user = getCurrentUser();
-    document.getElementById('btnLogin').style.display = user ? 'none' : 'inline-block';
-    document.getElementById('btnRegister').style.display = user ? 'none' : 'inline-block';
-    document.getElementById('userHello').style.display = user ? 'inline' : 'none';
-    document.getElementById('userName').textContent = user ? user.name : '';
-    document.getElementById('btnLogout').style.display = user ? 'inline-block' : 'none';
-    updateCart();
-}
-
-function openAuthModal(mode) {
-    document.getElementById('authModal').classList.add('show');
-    document.body.style.overflow = 'hidden';
-    switchAuthTab(mode);
-    document.getElementById('loginErr').classList.remove('show');
-    document.getElementById('regErr').classList.remove('show');
-}
-function closeAuthModal() {
-    document.getElementById('authModal').classList.remove('show');
-    document.body.style.overflow = 'auto';
-}
-function switchAuthTab(mode) {
-    document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
-    if (mode === 'login') {
-        document.getElementById('tabLogin').classList.add('active');
-        document.getElementById('formLogin').classList.add('active');
-    } else {
-        document.getElementById('tabRegister').classList.add('active');
-        document.getElementById('formRegister').classList.add('active');
-    }
-    document.getElementById('loginErr').classList.remove('show');
-    document.getElementById('regErr').classList.remove('show');
-}
-
-function doLogin(e) {
-    e.preventDefault();
-    let email = document.getElementById('loginEmail').value.trim().toLowerCase();
-    let pass = document.getElementById('loginPassword').value;
-    let err = document.getElementById('loginErr');
-    let stored = null;
-    try {
-        let raw = localStorage.getItem('minidonitas_users');
-        let users = raw ? JSON.parse(raw) : {};
-        stored = users[email] || null;
-    } catch (x) { stored = null; }
-    if (!stored || stored.password !== pass) {
-        err.textContent = 'Correo o contraseña incorrectos.';
-        err.classList.add('show');
-        return false;
-    }
-    setStoredUser({ name: stored.name, email: stored.email });
-    closeAuthModal();
-    renderAuthUI();
-    return false;
-}
-
-function doRegister(e) {
-    e.preventDefault();
-    let name = document.getElementById('regName').value.trim();
-    let email = document.getElementById('regEmail').value.trim().toLowerCase();
-    let pass = document.getElementById('regPassword').value;
-    let err = document.getElementById('regErr');
-    if (pass.length < 4) {
-        err.textContent = 'La contraseña debe tener al menos 4 caracteres.';
-        err.classList.add('show');
-        return false;
-    }
-    let users = {};
-    try {
-        let raw = localStorage.getItem('minidonitas_users');
-        if (raw) users = JSON.parse(raw);
-    } catch (x) {}
-    users[email] = { name, email, password: pass };
-    localStorage.setItem('minidonitas_users', JSON.stringify(users));
-    setStoredUser({ name, email });
-    closeAuthModal();
-    renderAuthUI();
-    return false;
-}
-
-function logout() {
-    setStoredUser(null);
-    renderAuthUI();
-}
-
 function handleWhatsAppClick(e) {
-    if (!isLoggedIn()) {
-        e.preventDefault();
-        openAuthModal('login');
-        return false;
-    }
     if (cart.length === 0) {
         e.preventDefault();
         return false;
@@ -1469,7 +1152,6 @@ function renderProducts(){
     animateOnScroll();
 }
 renderProducts();
-renderAuthUI();
 
 function addToCart(name,price){
     let prod=cart.find(p=>p.name===name);
@@ -1544,8 +1226,6 @@ function addFromModal() {
 document.addEventListener("click", function(e) {
     let modal = document.getElementById("productModal");
     if(e.target === modal) closeProductModal();
-    let authModal = document.getElementById("authModal");
-    if(e.target === authModal) closeAuthModal();
 });
 
 function toggleCart(){
@@ -1645,20 +1325,11 @@ function updateCart(){
     
     document.getElementById("whatsappBtn").href = `https://wa.me/51942177994?text=${whatsappText}`;
     
-    let loggedIn = isLoggedIn();
-    document.getElementById("cartLoginRequired").style.display = loggedIn ? "none" : "block";
-    document.getElementById("cartLoginErr").classList.remove("show");
-    
     let btn = document.getElementById("whatsappBtn");
     if (cart.length === 0) {
         btn.style.opacity = "0.5";
         btn.style.pointerEvents = "none";
         btn.classList.add("disabled");
-        btn.href = "#";
-    } else if (!loggedIn) {
-        btn.style.opacity = "0.85";
-        btn.style.pointerEvents = "auto";
-        btn.classList.remove("disabled");
         btn.href = "#";
     } else {
         btn.style.opacity = "1";
